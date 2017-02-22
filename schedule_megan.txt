@@ -1,0 +1,4 @@
+Schedule and deliverable:
+  - parser code for password data parser.php — Sun 26 Feb by 11:59 p.m. (estimate: 4 hrs)
+  - code for linear movement — Sun 05 March by 11:59 p.m. (estimate: 16 hrs)
+  - diagram of character win action — Sun 05 March by 11:59 p.m. (estimate: 1 hour)
