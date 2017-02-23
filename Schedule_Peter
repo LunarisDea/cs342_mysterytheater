@@ -1,0 +1,21 @@
+Feb 26
+-Organized base game code (ie, 'character' movement, image display, etc)
+-Code to play music file
+
+March 5
+-Player collision/hurtboxes
+-Environment collision
+-Enemy class
+
+March 10 (WoZ demo test)
+-Character attack + hitboxes
+-Basic enemy AI
+
+March 23 (WoZ due)
+TBD
+
+March 19
+TBD
+
+March 26
+TBD...
