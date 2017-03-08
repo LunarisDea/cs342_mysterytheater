@@ -1,17 +1,18 @@
 Wizard of Oz (March 13):
 
 We will do a test demo run on March 10th.
+Testing and recording: Sun 12 March
 
 Must have:
 -Player with movement and walking animation.
 -At least 2 background screens to move between.
+-Game launcher with resolution selection and play button.
 
 Should have:
--Game launcher with resolution selection and play button.
 -Attack animation with hitbox collision.
 -An enemy character on screen to attack and defeat.
 -An environmental object with collision (statue/pillar/wall/etc).
--Background Music.
+-Background music.
 
 Stretch goal:
 -Game launcher with keybinding.
