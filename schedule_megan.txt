@@ -1,4 +1,3 @@
 Schedule and deliverable:
-  - parser code for password data parser.php — Thurs 02 March by 11:59 p.m. (estimate: 4 hrs)
-  - code for game launcher and save and load states — Sun 05 March by 11:59 p.m. (estimate: 16 hrs)
-  - diagram of character win action — Sun 05 March by 11:59 p.m. (estimate: 1 hour)
+  - parser code for password data parser.php — end-March (estimate: NA)
+  - code for game launcher and save and load states — by early Sun 12 March (estimate: NA)
