@@ -41,7 +41,7 @@ Peter's Test Cases:
 	    Methods: Same as above, but for all directions, requiring a curDirection variable to get updated 
 	    and checked accordingly.
 
-4. Screen transition (in progress)
+4. Screen transition (done)
   	4a. Input: Character walks to top edge of screen
 	    Output: Prints out message "Character has reached edge of screen"
 	    Methods: borderCollision() will check the players location with the edge of the screen.
