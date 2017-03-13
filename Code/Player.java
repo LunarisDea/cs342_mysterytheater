@@ -37,6 +37,14 @@ public class Player extends Character implements GameInfo{
 		}			
 	}
 	
+	private void keyPressedHelper(int key, int xdir, int ydir){
+		curState = 1;
+		keyDown[key] = true;
+		curDirection = key;
+		xDir = xdir;
+		yDir = ydir;
+	}
+	
 	public void keyPressed(KeyEvent e){
 		int key = e.getKeyCode();
 		
@@ -44,32 +52,16 @@ public class Player extends Character implements GameInfo{
 			curState = 2;
 		}
 		else if (key == KeyEvent.VK_LEFT){
-			keyDown[3] = true;
-			curState = 1;
-			xDir = -1;	
-			curDirection = 3;
-			yDir = 0;
+			keyPressedHelper(3, -1, 0);
 		}
 		else if (key == KeyEvent.VK_RIGHT){	
-			keyDown[1] = true;
-			curState = 1;		
-			xDir = 1;
-			curDirection = 1;
-			yDir = 0;
+			keyPressedHelper(1, 1, 0);		
 		}
 		else if (key == KeyEvent.VK_UP){
-			keyDown[0] = true;
-			curState = 1;
-			yDir = -1;
-			curDirection = 0;
-			xDir = 0;
+			keyPressedHelper(0, 0, -1);			
 		}
 		else if (key == KeyEvent.VK_DOWN){	
-			keyDown[2] = true;
-			curState = 1;
-			yDir = 1;
-			curDirection = 2;
-			xDir = 0;
+			keyPressedHelper(2, 0, 1);
 		}		
 	}
 	
