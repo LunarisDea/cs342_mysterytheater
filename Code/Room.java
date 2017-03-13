@@ -2,7 +2,7 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 
 public class Room implements GameInfo{	
-	private int roomNum = 0;
+	private int roomNum = 100;
 	private int framesSinceRoomEnter = 0;	
 	private Image bgImage;
 	
@@ -11,11 +11,40 @@ public class Room implements GameInfo{
 	}
 	
 	public void loadBackground(){
-		ImageIcon bg = new ImageIcon("bg" + roomNum + ".png");
+		ImageIcon bg = new ImageIcon("bg" + roomNum + ".png");		
 		bgImage = bg.getImage();
+			
 		if (Global.size != 1)
 			bgImage = bgImage.getScaledInstance(INTERNAL_WIDTH * Global.size, 
 												INTERNAL_HEIGHT * Global.size, Image.SCALE_DEFAULT);		
+	}
+	
+	private void upRoom(Player player){
+		roomNum += 10;
+		loadBackground();
+		player.setLocation(player.getX(), INTERNAL_HEIGHT-player.getHeight());
+		framesSinceRoomEnter = 0;			
+	}
+	
+	private void downRoom(Player player){
+		roomNum -= 10;
+		loadBackground();
+		player.setLocation(player.getX(), 0);		
+		framesSinceRoomEnter = 0;		
+	}
+	
+	private void leftRoom(Player player){
+		roomNum -= 1;
+		loadBackground();
+		player.setLocation(INTERNAL_WIDTH-player.getWidth(), player.getY());
+		framesSinceRoomEnter = 0;			
+	}
+	
+	private void rightRoom(Player player){
+		roomNum = roomNum + 1;
+		loadBackground();
+		player.setLocation(0, player.getY());
+		framesSinceRoomEnter = 0;		
 	}
 	
 	public void borderCollisionDetector(Player player){
@@ -23,8 +52,7 @@ public class Room implements GameInfo{
 		
 		if (player.getX() + player.getWidth() > INTERNAL_WIDTH){
 			if (framesSinceRoomEnter > 60){
-				player.setLocation(0, player.getY());
-				framesSinceRoomEnter = 0;
+				rightRoom(player);
 			}
 			else{
 				player.setLocation(INTERNAL_WIDTH - player.getWidth(), player.getY());
@@ -32,8 +60,7 @@ public class Room implements GameInfo{
 		}
 		else if (player.getX() < 0){
 			if (framesSinceRoomEnter > 60){
-				player.setLocation(INTERNAL_WIDTH-player.getWidth(), player.getY());
-				framesSinceRoomEnter = 0;	
+				leftRoom(player);
 			}
 			else{
 				player.setLocation(0, player.getY());
@@ -41,8 +68,7 @@ public class Room implements GameInfo{
 		}
 		else if (player.getY() + player.getHeight() > INTERNAL_HEIGHT){
 			if (framesSinceRoomEnter > 60){
-				player.setLocation(player.getX(), 0);		
-				framesSinceRoomEnter = 0;			
+				downRoom(player);
 			}
 			else{
 				player.setLocation(player.getX(), INTERNAL_HEIGHT - player.getHeight());
@@ -50,8 +76,7 @@ public class Room implements GameInfo{
 		}
 		else if (player.getY() < 0){
 			if (framesSinceRoomEnter > 60){
-			player.setLocation(player.getX(), INTERNAL_HEIGHT-player.getHeight());
-			framesSinceRoomEnter = 0;			
+				upRoom(player);
 			}
 			else{
 				player.setLocation(player.getX(), 0);
