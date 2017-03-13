@@ -16,8 +16,8 @@ public class Character implements GameInfo{
 	private Image[][] walkAnimation = new Image[4][2];
 	private Image[][] attackAnimation = new Image[4][2];
 	
-	private int width = DEFAULT_WIDTH;
-	private int height = DEFAULT_HEIGHT;
+	private int width = 64;
+	private int height = 64;
 	private Image charImage;
 	String name;
 	
@@ -73,6 +73,9 @@ public class Character implements GameInfo{
 		else
 			curFrame = 1;
 		frameCounter++;
+		
+		if (frameCounter == 600) //max 10 seconds per animation
+			frameCounter = 0;
 		
 		return walkAnimation[curDirection][curFrame];
 	}
