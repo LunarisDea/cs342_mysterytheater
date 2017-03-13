@@ -16,7 +16,6 @@ public class Board extends JPanel implements Runnable, GameInfo{
 	private int initX = INTERNAL_WIDTH/2;	
 	private int initY = INTERNAL_HEIGHT/2;	
 	private int DELAY = 17;	
-	private int framesSinceRoomEnter = 0;
 	
 	private Thread animator;
 	private Player player;
@@ -74,49 +73,8 @@ public class Board extends JPanel implements Runnable, GameInfo{
 	}
 	
 	private void cycle(){
-		framesSinceRoomEnter++;
 		player.move();
-		borderCollisionDetector();
-	}
-	
-	private void borderCollisionDetector(){
-
-		if (player.getX() + player.getWidth() > INTERNAL_WIDTH){
-			if (framesSinceRoomEnter > 60){
-				player.setLocation(0, player.getY());
-				framesSinceRoomEnter = 0;
-			}
-			else{
-				player.setLocation(INTERNAL_WIDTH - player.getWidth(), player.getY());
-			}
-		}
-		else if (player.getX() < 0){
-			if (framesSinceRoomEnter > 60){
-				player.setLocation(INTERNAL_WIDTH-player.getWidth(), player.getY());
-				framesSinceRoomEnter = 0;	
-			}
-			else{
-				player.setLocation(0, player.getY());
-			}			
-		}
-		else if (player.getY() + player.getHeight() > INTERNAL_HEIGHT){
-			if (framesSinceRoomEnter > 60){
-				player.setLocation(player.getX(), 0);		
-				framesSinceRoomEnter = 0;			
-			}
-			else{
-				player.setLocation(player.getX(), INTERNAL_HEIGHT - player.getHeight());
-			}
-		}
-		else if (player.getY() < 0){
-			if (framesSinceRoomEnter > 60){
-			player.setLocation(player.getX(), INTERNAL_HEIGHT-player.getHeight());
-			framesSinceRoomEnter = 0;			
-			}
-			else{
-				player.setLocation(player.getX(), 0);
-			}			
-		}		
+		room.borderCollisionDetector(player);
 	}
 	
 	@Override
