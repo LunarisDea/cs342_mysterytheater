@@ -1,3 +1,4 @@
 Schedule and deliverable:
-  - parser code for password data parser.php — end-March (estimate: NA)
-  - code for game launcher and save and load states — by early Sun 12 March (estimate: NA)
+  - parser code for password data parser.php - end-March (estimate: NA)
+  - code for game launcher -  completed Sun 12 March
+  - save and load states -- 19 March (estimate: NA)
