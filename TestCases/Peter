@@ -1,0 +1,60 @@
+Peter's Test Cases:
+1. Button press
+  1a. Input: A button press.
+      Output: Prints out message "Button has been pressed"
+			Methods: The Board class will have a KeyListener that will call player.keyPressed(KeyEvent e), 
+			         which will print the message
+  1b. Input: A directional button press (default arrow keys)
+      Output: Prints out message "Character has moved [direction]" or "Attack has been pressed"
+			Methods: Same as above, but now keyPressed function will check for specific buttons and print 
+			         the pressed button if it is an arrow key or attack.
+ 
+2. Movement
+  2a. Input: Up arrow press
+      Output: Character model moves upwards
+			Methods: keyPressed function will change the value of yDirection to 1, which will be checked in
+			         move(), which is called every game cycle.
+	2b. Input: Up arrow release
+	    Output: Character model stops moving
+			Methods: keyReleased function will change the value of yDirection to 0.
+	2c. Input: Other directional movements
+	    Output: Character moves in respected direction (for hold duration)
+			Methods: Same as above, but with different xDirection and yDirection values.
+	2e. Input: Button released while another button is still held down
+	    Output: Character moves in direction of still held down button
+			Methods: Same as above, but will also update boolean keyDown[4] array when button is pressed or 
+			         released, which will be checked upon a keyRelease
+		 
+3. Animation
+  3a. Input: Up arrow press
+	    Output: Character image changes to a different image
+			Methods: move() will update curDirection and curState, which well be checked by getCurImage(),
+			         which will return a different image.
+	3b. Input: Up arrow release
+	    Output: Character image reverts to normal
+			Methods: Same as above, but move() will update curState to 0 if the character stops moving.
+	3c. Input: Up arrow press
+	    Output: Character image cycles between two different images (for hold duration)
+			Methods: getCurImage() will do a modular check on frameCounter to determine which image to return.
+	3d. Input: Other directional movements
+	    Output: Character image cycles between two unique images depending on direction (for hold duration)
+			Methods: Same as above, but for all directions, requiring a curDirection variable to get updated 
+			and checked accordingly.
+
+4. Screen transition
+  4a. Input: Character walks to top edge of screen
+	    Output: Prints out message "Character has reached edge of screen"
+			Methods: borderCollision() will check the players location with the edge of the screen.
+	4b. Input: Character walks to top edge of screen
+	    Output: Character model is moved to bottom edge of screen (at the same x coord)
+			Methods: borderCollision() will call player.moveLocation(player.getX(), screenSize-player.getHeight())..
+  4c. Input: Character walks to any edge of screen
+	    Output: Character model is moved to opposite edge
+			Methods: Same as above, except with respected moveLocation(x, y) parameters.
+	4d. Input: Character walks to any edge of screen
+	    Output: Prints out message "New room number is [roomNum]"
+			Methods: room.changeRoom(int direction) will be called, which then will print the new room number.
+	4e. Input: Character walks to top edge of screen
+	    Output: Background image changes for new room
+			Methods: changeRoom will call loadBackground(), which will update the background image, which is
+			         returned when getImage() is called.
