@@ -1,10 +1,13 @@
 Megan's Test Cases
-1. Game launcher (underway)
-   1a. Input: a button press.
-   1b. An int is stored to the temporary file MysteryTheaterTemp that sets screen resolution to the user's choice.
+1. Game launcher (done)
+   1a. Input: a button press stores and int to the temporary file MysteryTheaterTemp that sets screen resolution to the user's choice.
+   1b. Output: user's screen resolution is checked to match user input and changed when necessary.
 2. Default window (done)
    2a. Input: a button press.
-   2b. User selection of the default setting immediately starts the game in default mode for screen resolution.
+   2b. Output: user's selection of the default setting immediately starts the game in default mode for screen resolution.
 3. Resolution selection (done)
    3a. Input: a button press.
-   3b. User selection of any of the four screen resolution setting buttons immediately starts the game in the selected mode for screen resolution.
+   3b. Output: user's selection of any of the four screen resolution setting buttons immediately starts the game in the selected mode for screen resolution.
+4. Volume Slider (underway)
+   4a. Input: keyboard input from user
+   4b. Output: user's selection of game volume, based on input from 0 to 100, changes the game's volume
