@@ -18,7 +18,7 @@ public class MysteryTheater extends JFrame implements GameInfo{
 		setResizable(false);
 		pack();
 		
-		setTitle("ThreadTest");
+		setTitle("Mystery Theater");
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
