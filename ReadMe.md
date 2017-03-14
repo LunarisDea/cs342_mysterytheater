@@ -3,7 +3,7 @@ Created by:
  - Briana Crockett
  - Megan Hauck
 
-Compile Instructions:
- - Combine images and code in same folder
+Compile + Run Instructions:
+ - Combine images and code in same folder (currently use PetersTempImages)
  - Javac MysteryTheater.java
  - java MysteryTheater
