@@ -1,0 +1,10 @@
+Megan's Test Cases
+1. Game launcher (underway)
+   1a. Input: a button press.
+   1b. An int is stored to the temporary file MysteryTheaterTemp that sets screen resolution to the user's choice.
+2. Default window (done)
+   2a. Input: a button press.
+   2b. User selection of the default setting immediately starts the game in default mode for screen resolution.
+3. Resolution selection (done)
+   3a. Input: a button press.
+   3b. User selection of any of the four screen resolution setting buttons immediately starts the game in the selected mode for screen resolution.
