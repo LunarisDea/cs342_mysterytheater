@@ -1,0 +1,45 @@
+Briana's Test Cases
+1. Chracter Model Front (done)
+	A. Input: character model in png format
+	B. Output: character displays on the screen
+	C. Methods: Character(), getCurImage(), loadAnimations()
+
+2. Chracter Model Back (done)
+	A. Input: character model in png format
+	B. Output: character displays on the screen
+	C. Methods: Character(), getCurImage(), loadAnimaions()
+
+3. Chracter Model Left (done)
+	A. Input: character model in png format
+	B. Output: character displays on the screen
+	C. Methods: Character(), getCurImage(), loadAnimations()
+
+4. Chracter Model Right (done)
+	A. Input: character model in png format
+	B. Output: character displays on the screen
+	C. Methods: Character(), getCurImage(), loadAnimations()
+
+5. Chracter Model Front Movement Frame 1 (done)
+	A. Input: character model in png format
+	B. Output: character displays on the screen
+	C. Methods: Character(), getCurImage(), loadAnimations()
+
+6. Chracter Model Back Movement Frame 1(done)
+	A. Input: character model in png format
+	B. Output: character displays on the screen
+	C. Methods: Character(), getCurImage(), loadAnimaions()
+
+7. Chracter Model Left Movement Frame 1(done)
+	A. Input: character model in png format
+	B. Output: character displays on the screen
+	C. Methods: Character(), getCurImage(), loadAnimations()
+
+8. Chracter Model Right Movement Frame 1(done)
+	A. Input: character model in png format
+	B. Output: character displays on the screen
+	C. Methods: Character(), getCurImage(), loadAnimations()
+
+9. Hitbox (upcoming)
+	A. Input: keyboard for player movement causing colission with an enemy
+	B. Output: confrontation with enemy, battle with enemy, or health loss
+	C. Methods: N/A
