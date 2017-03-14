@@ -2,6 +2,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -22,57 +23,33 @@ public class MysteryTheater extends JFrame implements GameInfo{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
-	public static void main(String[] args){
-		try(BufferedReader br = new BufferedReader(new FileReader("gameSettings.set"))) {
-			String line;
-
-			line = br.readLine();
-			line = br.readLine();
-			Global.size = Integer.parseInt(line);
-			
-			if (Global.size < 1 || Global.size > 4){
-				System.exit(1);
-			}
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		
-		
-		EventQueue.invokeLater(new Runnable(){
-			
+	public static void readFile(){
+		File file = new File("GameSettings.txt");
+		try {
+			FileReader reader = new FileReader(file);
+			int resolution = reader.read();
+			Global.size = resolution;
+			reader.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+			//GameLauncher gl = new GameLauncher();
+			System.exit(-1);
+		}		
+	}
+	
+	public static void initGame(){
+		readFile();		
+		EventQueue.invokeLater(new Runnable() {
 			@Override
-			public void run(){	
+			public void run() {
 				JFrame ex = new MysteryTheater();
-				ex.setVisible(true);
+				ex.setVisible(true);	
 			}
-		});
+		});		
+	}
+	
+	public static void main(String[] args){	
+		initGame();
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
