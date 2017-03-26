@@ -1,0 +1,19 @@
+Alpha Demo (April 4):
+
+Test demo run on Sunday April 2nd.
+
+Must have:
+-2 Enemy Types (at least 1 of which will have basic AI and attack).
+-3 rooms.
+-Hitboxes and hurtboxes.
+-An environmental object with collision (statue/pillar/wall/etc).
+-Background music.
+-Basic sound effects.
+-Game Launcher keybinding.
+-Game Launcher volume slider.
+
+Stretch goal:
+-Defeat screen.
+-Boss enemy.
+-Basic launcher design.
+-More enemies, rooms, songs, sound effects.
