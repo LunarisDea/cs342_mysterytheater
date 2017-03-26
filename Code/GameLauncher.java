@@ -14,12 +14,23 @@ import java.awt.event.ActionEvent;
 
 public class GameLauncher extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1180818370680586732L;
+
 	private JPanel contentPane;
 	
 	private static final int RESOLUTION_640_x_480 = 1;
 	private static final int RESOLUTION_1280_x_960 = 2;
 	private static final int RESOLUTION_1920_x_1080 = 3;
 	private static final int RESOLUTION_2560_x_1440 = 4;
+	private static final String MOVE_LEFT_MAPPING = "J";
+	private static final String MOVE_RIGHT_MAPPING = "L";
+	private static final String MOVE_UP_MAPPING = "I";
+	private static final String MOVE_DOWN_MAPPING = "K";
+	private static final String ATTACK_ONE_MAPPING = "U";
+	private static final String ATTACK_TWO_MAPPING = "O";
 	
 	private int resolution = RESOLUTION_640_x_480;  // set resolution to default of 640 x 480
 	
@@ -103,6 +114,12 @@ public class GameLauncher extends JFrame {
 				try {
 					FileWriter writer = new FileWriter(file);
 					writer.write(resolution);
+					writer.write(MOVE_LEFT_MAPPING);
+					writer.write(MOVE_RIGHT_MAPPING);
+					writer.write(MOVE_UP_MAPPING);
+					writer.write(MOVE_DOWN_MAPPING);
+					writer.write(ATTACK_ONE_MAPPING);
+					writer.write(ATTACK_TWO_MAPPING);
 					writer.close();
 					MysteryTheater.main(new String[0]);
 					setVisible(false);
