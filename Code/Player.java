@@ -1,10 +1,23 @@
-import java.awt.event.KeyEvent;
+import java.awt.event.KeyEvent;//can do multiple inheritance in C++ but not in Java -- instead, use interfaces in Java
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
+//import GameInfo.Global;
 
 public class Player extends Character implements GameInfo{
 	private int speed = 2;
 	private int xDir = 0;
 	private int yDir = 0;
 	private boolean keyDown[];
+	
+	private int moveLeftMapping;
+	private int moveRightMapping;
+	private int moveUpMapping;
+	private int moveDownMapping;
+	private int attackOneMapping;
+	private int attackTwoMapping;
+
 	
 	public Player(String fName){
 		name = fName;
@@ -13,8 +26,10 @@ public class Player extends Character implements GameInfo{
 		loadAnimations();		
 		setMaxHP(4);
 		keyDown = new boolean[4];
-		for (int i=0; i<4; i++)
+		for (int i=0; i<4; i++) {
 			keyDown[i] = false;
+		}
+		readFile();//this sets vals for mappings declared at approx 14-19
 	}
 	
 	public void move(){
@@ -45,23 +60,70 @@ public class Player extends Character implements GameInfo{
 		yDir = ydir;
 	}
 	
-	public void keyPressed(KeyEvent e){
+	public void keyPressed(KeyEvent e) {//e is an addy to an instance of the object
 		int key = e.getKeyCode();
 		
-		if (key == KeyEvent.VK_A){
+		if (key == KeyEvent.VK_A) {
 			curState = 2;
 		}
-		else if (key == KeyEvent.VK_LEFT){
+		else if (key == KeyEvent.VK_LEFT) {
 			keyPressedHelper(3, -1, 0);
 		}
-		else if (key == KeyEvent.VK_RIGHT){	
+		else if (key == KeyEvent.VK_RIGHT) {	
 			keyPressedHelper(1, 1, 0);		
 		}
-		else if (key == KeyEvent.VK_UP){
+		else if (key == KeyEvent.VK_UP) {
 			keyPressedHelper(0, 0, -1);			
 		}
-		else if (key == KeyEvent.VK_DOWN){	
+		else if (key == KeyEvent.VK_DOWN) {	
 			keyPressedHelper(2, 0, 1);
+		}
+		else if (key == moveLeftMapping) {
+			keyPressedHelper(3, -1, 0);               //same as VK_LEFT
+		}
+		else if (key == moveRightMapping) {	
+			keyPressedHelper(1, 1, 0);                //same as VK_RIGHT	
+		}
+		else if (key == moveUpMapping) {
+			keyPressedHelper(0, 0, -1);               //same as VK_UP		
+		}
+		else if (key == moveDownMapping) {	
+			keyPressedHelper(2, 0, 1);                //same as VK_DOWN
+		}
+		else if (key == attackOneMapping || key == attackTwoMapping) {
+			curState = 2;
+		}
+	}
+
+	public void readFile() {
+		File file = new File("GameSettings.txt");
+		try {
+			FileReader reader = new FileReader(file);
+			int resolution = reader.read();
+			moveLeftMapping = reader.read();
+			moveRightMapping = reader.read();
+			moveUpMapping = reader.read();
+			moveDownMapping = reader.read();
+			attackOneMapping = reader.read();
+			attackTwoMapping = reader.read();
+			System.out.println(" move left mapping = " + moveLeftMapping);
+			System.out.println(" move right mapping = " + moveRightMapping);
+			System.out.println(" move up mapping = " + moveUpMapping);
+			System.out.println(" move right mapping = " + moveDownMapping);
+			System.out.println(" attack one mapping = " + attackOneMapping);
+			System.out.println(" attack two mapping = " + attackTwoMapping);
+			//could let player choose chars for mapping
+			//by updating GameLauncher by adding to GUI
+			//hitting any key needs to go to event handler
+			//doing mapping: "if key pressed
+
+			Global.size = resolution;
+			reader.close();
+		} catch (IOException e) {
+			//TODO Auto-generated catch block
+			//e.printStackTrace();
+			//GameLauncher gl = new GameLauncher();
+			System.exit(-1);
 		}		
 	}
 	
