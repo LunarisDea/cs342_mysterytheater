@@ -13,21 +13,40 @@ import javax.swing.JPanel;
 public class Board extends JPanel implements Runnable, GameInfo{
 	private int bWidth = INTERNAL_WIDTH;
 	private int bHeight = INTERNAL_HEIGHT;
-	private int initX = INTERNAL_WIDTH/2;	
-	private int initY = INTERNAL_HEIGHT/2;	
-	private int DELAY = 17;	
+	private int initX = INTERNAL_WIDTH/2;
+	private int initY = INTERNAL_HEIGHT/2;
+	private int DELAY = 17;
 	
 	private Thread animator;
 	private Player player;
 	private Room room;
 	
-	public Board(){
+	private char moveLeftMapping = 0;
+	private char moveRightMapping = 0;
+	private char moveUpMapping = 0;
+	private char moveDownMapping = 0;
+	private char attackOneMapping = 0;
+	private char attackTwoMapping = 0;
+	
+	public Board() {
+//	public Board(char moveLeftMapping,
+//	  char moveRightMapping,
+//	  char moveUpMapping,
+//	  char moveDownMapping,
+//	  char attackOneMapping,
+//	  char attackTwoMapping) {
+//		this.moveLeftMapping = moveLeftMapping;
+//		this.moveRightMapping = moveRightMapping;
+//		this.moveUpMapping = moveUpMapping;
+//		this.moveDownMapping = moveDownMapping;
+//		this.attackOneMapping = attackOneMapping;
+//		this.attackTwoMapping = attackTwoMapping;
 		addKeyListener(new KeyInput());
-		setFocusable(true);		
+		setFocusable(true);
 		initBoard();
 	}
 	
-	private void initBoard(){	
+	private void initBoard() {	
 		setBackground(Color.BLACK);
 		bWidth = bWidth * Global.size; 
 		bHeight = bHeight * Global.size;
@@ -96,7 +115,7 @@ public class Board extends JPanel implements Runnable, GameInfo{
 			
 			try {
 				Thread.sleep(sleep);
-			} catch (InterruptedException e){
+			} catch (InterruptedException e) {
 				System.out.println("Interrupted: " + e.getMessage());
 			}
 			
@@ -104,30 +123,13 @@ public class Board extends JPanel implements Runnable, GameInfo{
 		}
 	}
 	
-	private class KeyInput extends KeyAdapter{
-		public void keyReleased(KeyEvent e){
+	private class KeyInput extends KeyAdapter {
+		public void keyReleased(KeyEvent e) {
 			player.keyReleased(e);
 		}
 		
-		public void keyPressed(KeyEvent e){
+		public void keyPressed(KeyEvent e) {
 			player.keyPressed(e);
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
