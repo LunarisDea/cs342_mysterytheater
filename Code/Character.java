@@ -13,8 +13,8 @@ public class Character implements GameInfo{
 	
 	private int frameCounter;
 	private Image[] idleAnimation = new Image[4];
-	private Image[][] walkAnimation = new Image[4][2];
-	private Image[][] attackAnimation = new Image[4][2];
+	private Image[][] walkAnimation = new Image[4][4];
+	private Image[][] attackAnimation = new Image[4][4];
 	
 	private int width = 64;
 	private int height = 64;
@@ -28,7 +28,7 @@ public class Character implements GameInfo{
 	public Character(String fName){
 		frameCounter = 0;
 		curState = 0;
-		curDirection = 0;
+		curDirection = DOWN;
 		name = fName;
 		loadAnimations();
 		vulnerable = true;
@@ -45,16 +45,16 @@ public class Character implements GameInfo{
 	
 	public void loadAnimations(){
 		for (int j = 0; j<4; j++){
-			ImageIcon ii = new ImageIcon(name + j + ".png");
+			ImageIcon ii = new ImageIcon("Images/"+name + j + ".png");
 			idleAnimation[j] = ii.getImage();
 			idleAnimation[j] =  idleAnimation[j].getScaledInstance(width * Global.size, height * Global.size, Image.SCALE_DEFAULT);
-			for (int i = 0; i<2; i++){		
-				ii = new ImageIcon(name + "w" + j + i + ".png");
+			for (int i = 0; i<4; i++){		
+				ii = new ImageIcon("Images/"+name + "w" + j + i + ".png");
 				//walkAnimation[i] = ii.getImage();
 				walkAnimation[j][i] = ii.getImage();
 				walkAnimation[j][i] = walkAnimation[j][i].getScaledInstance(width * Global.size, height * Global.size, Image.SCALE_DEFAULT);
 				
-				ii = new ImageIcon(name + "a" + j + i + ".png");
+				ii = new ImageIcon("Images/"+name + "a" + j + i + ".png");
 				attackAnimation[j][i] = ii.getImage();
 				attackAnimation[j][i] = attackAnimation[j][i].getScaledInstance(width * Global.size, height * Global.size, Image.SCALE_DEFAULT);
 			}
@@ -66,12 +66,14 @@ public class Character implements GameInfo{
 			return idleAnimation[curDirection];
 		}
 		int curFrame = 0;
-		if (frameCounter % 60 < 30)
+		if (frameCounter % 60 < 15)
 			curFrame = 0;
-		else if (frameCounter % 60 < 60)
+		else if (frameCounter % 60 < 30)
 			curFrame = 1;
+		else if (frameCounter % 60 < 45)
+			curFrame = 2;					
 		else
-			curFrame = 1;
+			curFrame = 3;
 		frameCounter++;
 		
 		if (frameCounter == 600) //max 10 seconds per animation
