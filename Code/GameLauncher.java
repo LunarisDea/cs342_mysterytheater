@@ -38,8 +38,10 @@ public class GameLauncher extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
+								
 				try {
 					GameLauncher frame = new GameLauncher();
 					frame.setVisible(true);
@@ -48,12 +50,20 @@ public class GameLauncher extends JFrame {
 				}
 			}
 		});
+		while(true){
+			try{
+				Thread.sleep(10000);
+			}catch(InterruptedException ex){
+				Thread.currentThread().interrupt();
+			}
+		}
 	}
 
 	/**
 	 * Create the frame.
 	 */
 	public GameLauncher() {
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -106,7 +116,7 @@ public class GameLauncher extends JFrame {
 		contentPane.add(panel_2, BorderLayout.SOUTH);
 		
 		JButton startButton = new JButton("Start Game");
-		startButton.addActionListener(new ActionListener() {
+		startButton.addActionListener(new ActionListener() {	
 			public void actionPerformed(ActionEvent arg0) {
 				// write the resolution to a file...
 				System.out.println(" write the resolution " + resolution + " to a file...");
