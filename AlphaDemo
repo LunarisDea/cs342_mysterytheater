@@ -1,6 +1,6 @@
 Alpha Demo (April 4):
 
-Test demo run on Sunday April 2nd.
+Test demo run on Sunday April 2nd at 10pm.
 
 Must have:
 -2 Enemy Types (at least 1 of which will have basic AI and attack).
@@ -17,3 +17,37 @@ Stretch goal:
 -Boss enemy.
 -Basic launcher design.
 -More enemies, rooms, songs, sound effects.
+
+
+Individual components:
+Briana:
+Must have:
+-Enemy factory, with 2 different enemy types (This needs to be done by Friday at the latest)
+-Character attack
+-Character and enemy hitboxes (should have debug draw blue rectangle of hitbox area to make sure correct size/collision detection)
+-Character and enemy attack hurtboxes (^above but red)
+-Basic sound effects
+Stretch goal:
+-More enemy types
+-More sound effects
+
+Peter:
+Must have:
+-Character and enemy pixelArt + animation
+-Room design/art
+-Room import (ie, enemy spawns + environmental collision)
+-Room collision detection
+-Basic enemy AI
+Stretch Goals:
+-Launcher art
+-Defeat screen
+-Boss enemy
+
+Megan:
+Must have:
+-A background song
+-Key remapping
+-Launcher volume slider
+-Pause feature
+Stretch goals:
+-More background music
