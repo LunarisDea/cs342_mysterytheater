@@ -4,5 +4,5 @@ Created by:
  - Megan Hauck
 
 Compile + Run Instructions:
- - Javac gameLauncher.java
+ - Javac gameLauncher.java (inside code folder)
  - java gameLauncher (or java MysteryTheater)
