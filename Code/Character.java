@@ -45,16 +45,16 @@ public class Character implements GameInfo{
 	
 	public void loadAnimations(){
 		for (int j = 0; j<4; j++){
-			ImageIcon ii = new ImageIcon("Images/"+name + j + ".png");
+			ImageIcon ii = new ImageIcon("Images/"+name+"/" + j + ".png");
 			idleAnimation[j] = ii.getImage();
 			idleAnimation[j] =  idleAnimation[j].getScaledInstance(width * Global.size, height * Global.size, Image.SCALE_DEFAULT);
 			for (int i = 0; i<4; i++){		
-				ii = new ImageIcon("Images/"+name + "w" + j + i + ".png");
+				ii = new ImageIcon("Images/"+name+"/" + "w" + j + i + ".png");
 				//walkAnimation[i] = ii.getImage();
 				walkAnimation[j][i] = ii.getImage();
 				walkAnimation[j][i] = walkAnimation[j][i].getScaledInstance(width * Global.size, height * Global.size, Image.SCALE_DEFAULT);
 				
-				ii = new ImageIcon("Images/"+name + "a" + j + i + ".png");
+				ii = new ImageIcon("Images/"+name+"/" + "a" + j + i + ".png");
 				attackAnimation[j][i] = ii.getImage();
 				attackAnimation[j][i] = attackAnimation[j][i].getScaledInstance(width * Global.size, height * Global.size, Image.SCALE_DEFAULT);
 			}
