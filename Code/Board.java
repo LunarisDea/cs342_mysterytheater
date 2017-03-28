@@ -55,7 +55,7 @@ public class Board extends JPanel implements Runnable, GameInfo{
 		
 		room = new Room();
 		
-		player = new Player("tw"); //temp
+		player = new Player();
 		player.setLocation(initX-(DEFAULT_WIDTH/2), initY-(DEFAULT_HEIGHT/2));
 	}
 	
@@ -78,7 +78,7 @@ public class Board extends JPanel implements Runnable, GameInfo{
 	private void drawUI(Graphics g){
 		int numHP = player.getCurHP();
 		
-		ImageIcon ii = new ImageIcon("hp.png");
+		ImageIcon ii = new ImageIcon("UI/hp.png");
 		Image hpImage = ii.getImage();
 		//hpImage = hpImage.getScaledInstance(8*Global.size, 8 * Global.size, Image.SCALE_DEFAULT);
 		
