@@ -19,8 +19,8 @@ public class Player extends Character implements GameInfo{
 	private int attackTwoMapping;
 
 	
-	public Player(String fName){
-		name = fName;
+	public Player(){
+		name = "MC";
 		//loadImage(fName);
 		vulnerable = true;
 		loadAnimations();		
