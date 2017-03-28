@@ -11,7 +11,7 @@ public class Room implements GameInfo{
 	}
 	
 	public void loadBackground(){
-		ImageIcon bg = new ImageIcon("bg" + roomNum + ".png");		
+		ImageIcon bg = new ImageIcon("Images/bg" + roomNum + ".png");		
 		bgImage = bg.getImage();
 			
 		if (Global.size != 1)
