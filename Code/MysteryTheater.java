@@ -56,7 +56,8 @@ public class MysteryTheater extends JFrame implements GameInfo{
 			//TODO Auto-generated catch block
 			//e.printStackTrace();
 			//GameLauncher gl = new GameLauncher();
-			System.exit(-1);
+			GameLauncher.main(new String[0]);			
+			//System.exit(-1);
 		}		
 	}
 	
