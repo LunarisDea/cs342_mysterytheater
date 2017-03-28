@@ -38,16 +38,16 @@ public class Player extends Character implements GameInfo{
 		}
 		else if (xDir != 0){ 
 			if (xDir < 0) 
-				curDirection = 3;
+				curDirection = LEFT;
 			else
-				curDirection = 1;
+				curDirection = RIGHT;
 			changeLocation(xDir*speed, 0);
 		}
 		else{
 			if (yDir < 0)
-				curDirection = 0;
+				curDirection = UP;
 			else
-				curDirection = 2;
+				curDirection = DOWN;
 			changeLocation(0, yDir*speed);	
 		}			
 	}
@@ -67,16 +67,16 @@ public class Player extends Character implements GameInfo{
 			curState = 2;
 		}
 		else if (key == KeyEvent.VK_LEFT) {
-			keyPressedHelper(3, -1, 0);
+			keyPressedHelper(LEFT, -1, 0);
 		}
 		else if (key == KeyEvent.VK_RIGHT) {	
-			keyPressedHelper(1, 1, 0);		
+			keyPressedHelper(RIGHT, 1, 0);		
 		}
 		else if (key == KeyEvent.VK_UP) {
-			keyPressedHelper(0, 0, -1);			
+			keyPressedHelper(UP, 0, -1);			
 		}
 		else if (key == KeyEvent.VK_DOWN) {	
-			keyPressedHelper(2, 0, 1);
+			keyPressedHelper(DOWN, 0, 1);
 		}
 		else if (key == moveLeftMapping) {
 			keyPressedHelper(3, -1, 0);               //same as VK_LEFT
@@ -129,40 +129,40 @@ public class Player extends Character implements GameInfo{
 	
 	public void keyReleased(KeyEvent e){
 		int key = e.getKeyCode();
-		
-		if (key == KeyEvent.VK_LEFT ){
-			keyDown[3] = false;
+
+		if (key == KeyEvent.VK_LEFT || key == moveLeftMapping){
+			keyDown[LEFT] = false;
 			xDir = 0;
 			checkOtherKeys();
 		}
-		else if (key == KeyEvent.VK_RIGHT){
-			keyDown[1] = false;
+		else if (key == KeyEvent.VK_RIGHT || key == moveRightMapping){
+			keyDown[RIGHT] = false;
 			xDir = 0;	
 			checkOtherKeys();			
 		}
-		else if (key == KeyEvent.VK_UP){
-			keyDown[0] = false;
+		else if (key == KeyEvent.VK_UP || key == moveUpMapping){
+			keyDown[UP] = false;
 			yDir = 0;
 			checkOtherKeys();			
 		}
-		else if (key == KeyEvent.VK_DOWN){
-			keyDown[2] = false;
+		else if (key == KeyEvent.VK_DOWN || key == moveDownMapping){
+			keyDown[DOWN] = false;
 			yDir = 0;
 			checkOtherKeys();			
 		}
 	}
 	
 	public void checkOtherKeys(){
-		if (keyDown[0]){
+		if (keyDown[UP]){
 			yDir = -1;
 		}
-		else if (keyDown[1]){
+		else if (keyDown[RIGHT]){
 			xDir = 1;
 		}
-		else if (keyDown[2]){
+		else if (keyDown[DOWN]){
 			yDir = 1;
 		}
-		else if (keyDown[3]){
+		else if (keyDown[LEFT]){
 			xDir = -1;
 		}
 	}
