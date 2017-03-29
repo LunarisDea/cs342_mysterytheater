@@ -1,4 +1,6 @@
-Schedule and deliverable:
-  - parser code for password data parser.php - end-March (estimate: NA)
-  - code for game launcher -  completed Sun 12 March
-  - save and load states -- 19 March (estimate: NA)
+Schedule and deliverables:
+  - code for game launcher
+    -> continue key remapping 29 March (estimate: 20 hours)
+  - add volume slider
+  - meet group at 4 p.m. 29 March
+  - complete pieces for alpha demo 04 April (estimate: NA)
