@@ -1,5 +1,7 @@
 public class Box{
 	private Coordinate corners[];
+	private int offsetX = 0;
+	private int offsetY = 0;
 	
 	public Box(int x, int y, int width, int height){
 		corners = new Coordinate[4];
@@ -10,16 +12,45 @@ public class Box{
 	}
 	
 	public boolean isOverlapped(Box box2){
+		int offsetDiffX = box2.getX() - offsetX;
+		int offsetDiffY = box2.getY() - offsetY;
 		for (int i=0; i<4; i++){
-			if (corners[i].x > box2.getCorner(0).x && corners[i].x < box2.getCorner(1).x &&
-			    corners[i].y > box2.getCorner(0).y && corners[i].y < box2.getCorner(3).y){
+			if (corners[i].x > offsetDiffX && 
+			    corners[i].x < offsetDiffX + box2.getWidth() &&
+			    corners[i].y > offsetDiffY && 
+				corners[i].y < offsetDiffY + box2.getHeight()){
 				return true;
 			}
 		}
 		return false;
 	}
 	
+	public void changeOffset(int x, int y){
+		offsetX = x;
+		offsetY = y;
+	}
+	
 	public Coordinate getCorner(int c){
 		return corners[c];
+	}
+	
+	public Coordinate getCorner(){
+		return corners[0];
+	}
+	
+	public int getX(){
+		return corners[0].x + offsetX;
+	}
+	
+	public int getY(){
+		return corners[0].y + offsetY;
+	}
+	
+	public int getWidth(){
+		return (corners[1].x - corners[0].x);
+	}
+	
+	public int getHeight(){
+		return (corners[3].y - corners[0].y);
 	}
 }
