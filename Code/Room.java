@@ -269,6 +269,15 @@ public class Room implements GameInfo{
 		}
 	}
 	
+	public void changeOverlay(int num){
+		overlay = num;
+	}
+	
+	public void changeOverlay(int num, int intensity){
+		overlay = num;
+		overlayIntensity = intensity;
+	}
+	
 	public int getRoomNum(){
 		return roomNum;
 	}
