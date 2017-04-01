@@ -11,6 +11,7 @@ public interface GameInfo{
 
 	public class Global{
 		public static int size = 1;
+		public static boolean showHitboxes = false;
 	}
 	
 	public enum Direction{ UP, RIGHT, DOWN, LEFT }
