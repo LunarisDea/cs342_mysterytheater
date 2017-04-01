@@ -218,6 +218,9 @@ public class Player extends Character implements GameInfo{
 			if (y > 65){
 				changeLocation(0, -1);
 			}
+			else if (y < 65){
+				changeLocation(0, 1);
+			}
 			else if (x < 478){
 				changeLocation(1, 0);
 			}
