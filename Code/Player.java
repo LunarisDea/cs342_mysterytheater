@@ -21,7 +21,9 @@ public class Player extends Character implements GameInfo{
 	
 	public Player(){
 		name = "MC";
-		//loadImage(fName);
+		
+		hurtbox = new Box(13, 38, 40, 22);
+		hurtbox.changeOffset(x, y);
 		vulnerable = true;
 		loadAnimations();		
 		setMaxHP(4);
