@@ -39,16 +39,6 @@ public class MysteryTheater extends JFrame implements GameInfo{
 			char moveDownMapping = (char) reader.read();
 			char attackOneMapping = (char) reader.read();
 			char attackTwoMapping = (char) reader.read();
-			System.out.println(" move left mapping = " + moveLeftMapping);
-			System.out.println(" move right mapping = " + moveRightMapping);
-			System.out.println(" move up mapping = " + moveUpMapping);
-			System.out.println(" move right mapping = " + moveDownMapping);
-			System.out.println(" attack one mapping = " + attackOneMapping);
-			System.out.println(" attack two mapping = " + attackTwoMapping);
-			//could let player choose chars for mapping
-			//by updating GameLauncher by adding to GUI
-			//hitting any key needs to go to event handler
-			//doing mapping: "if key pressed
 
 			Global.size = resolution;
 			reader.close();
