@@ -224,11 +224,12 @@ public class Player extends Character implements GameInfo{
 			else if (x < 478){
 				changeLocation(1, 0);
 			}
-			else if (cutsceneFrame <= 180){
+			else if (cutsceneFrame <= 360){
 				curDirection = DOWN;
 			}
 			else{
 				setActable();
+				Room.getInstance().changeOverlay(0);
 				cutsceneNumber = 0;
 			}
 		}
