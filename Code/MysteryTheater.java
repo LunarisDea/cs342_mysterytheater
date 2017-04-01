@@ -72,7 +72,11 @@ public class MysteryTheater extends JFrame implements GameInfo{
 		});
 	}
 	
-	public static void main(String[] args) {	
+	public static void main(String[] args) {
+		for (String s: args){
+			if (s.equals("-h"))
+				Global.showHitboxes = true;
+		}
 		initGame();
 	}
 }
