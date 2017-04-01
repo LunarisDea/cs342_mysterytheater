@@ -49,7 +49,6 @@ public class Board extends JPanel implements Runnable, GameInfo{
 		room = new Room();
 		
 		player = new Player();
-		player.setLocation(initX-(DEFAULT_WIDTH/2), initY-(DEFAULT_HEIGHT/2));
 	}
 	
 	@Override
