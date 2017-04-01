@@ -46,9 +46,9 @@ public class Board extends JPanel implements Runnable, GameInfo{
 		setPreferredSize(new Dimension(bWidth, bHeight));
 		setDoubleBuffered(true);
 		
-		room = new Room();
+		room = Room.getInstance();
 		
-		player = new Player();
+		player = Player.getInstance();
 	}
 	
 	@Override
@@ -65,12 +65,12 @@ public class Board extends JPanel implements Runnable, GameInfo{
 		g.drawImage(room.getBgImage(), 0, 0, this);	
 		drawCharacters(g);
 		g.drawImage(room.getFgImage(), 0, 0, this);
+		room.addOverlay(g);
 		drawUI(g);
 	}	
 	
 	private void drawUI(Graphics g){
 		int numHP = player.getCurHP();
-		
 		for (int i=2; i<=numHP+1; i++)
 			g.drawImage(hpImage, (INTERNAL_WIDTH*Global.size-(i*32)), 40, this);
 		
@@ -82,11 +82,18 @@ public class Board extends JPanel implements Runnable, GameInfo{
 			//enemy hurtboxes
 			//env boxes	
 			g.setColor(Color.GREEN);
-			int numObjects = room.getNumObjects();
+			int numObjects = room.getNumCollidables();
 			for (int i = 0; i<numObjects; i++){
 				curBox = room.getCollisionBox(i);
 				g.drawRect(curBox.getX(), curBox.getY(), curBox.getWidth(), curBox.getHeight()); 
 			}
+			//action boxes
+			g.setColor(Color.MAGENTA);
+			int numActables = room.getNumActables();
+			for (int i=0; i<numActables; i++){
+				curBox = room.getActionBox(i);
+				g.drawRect(curBox.getX(), curBox.getY(), curBox.getWidth(), curBox.getHeight());
+			}			
 			//transition boxes
 			g.setColor(Color.YELLOW);
 			int numTrans = room.getNumTransitions();
@@ -104,6 +111,8 @@ public class Board extends JPanel implements Runnable, GameInfo{
 	
 	private void cycle(){
 		player.move();
+		if (player.checkCutscene())
+			return;
 		room.envCollisionDetector(player);
 		room.borderCollisionDetector(player);
 	}
