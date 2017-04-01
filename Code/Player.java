@@ -31,6 +31,10 @@ public class Player extends Character implements GameInfo{
 		for (int i=0; i<4; i++) {
 			keyDown[i] = false;
 		}
+		
+		setLocation(293, 55);
+		curDirection = DOWN;
+		
 		readFile();//this sets vals for mappings declared at approx 14-19
 	}
 	
@@ -65,10 +69,8 @@ public class Player extends Character implements GameInfo{
 	public void keyPressed(KeyEvent e) {//e is an addy to an instance of the object
 		int key = e.getKeyCode();
 		
-		if (key == KeyEvent.VK_A) {
-			curState = 2;
-		}
-		else if (key == KeyEvent.VK_LEFT) {
+		//REMOVE once keymapping 100% works
+		if (key == KeyEvent.VK_LEFT) {
 			keyPressedHelper(LEFT, -1, 0);
 		}
 		else if (key == KeyEvent.VK_RIGHT) {	
@@ -80,6 +82,7 @@ public class Player extends Character implements GameInfo{
 		else if (key == KeyEvent.VK_DOWN) {	
 			keyPressedHelper(DOWN, 0, 1);
 		}
+		//REMOVE once keymapping 100% works
 		else if (key == moveLeftMapping) {
 			keyPressedHelper(3, -1, 0);               //same as VK_LEFT
 		}
@@ -114,10 +117,6 @@ public class Player extends Character implements GameInfo{
 			System.out.println(" move right mapping = " + moveDownMapping);
 			System.out.println(" attack one mapping = " + attackOneMapping);
 			System.out.println(" attack two mapping = " + attackTwoMapping);
-			//could let player choose chars for mapping
-			//by updating GameLauncher by adding to GUI
-			//hitting any key needs to go to event handler
-			//doing mapping: "if key pressed
 
 			Global.size = resolution;
 			reader.close();
