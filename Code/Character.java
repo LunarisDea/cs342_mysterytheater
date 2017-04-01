@@ -2,11 +2,11 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 
 public class Character implements GameInfo{	
-	private int x;
-	private int y;
-	private int curHP;
-	private int maxHP;
-	private Box hurtbox;
+	protected int x; private int prevX;
+	protected int y; private int prevY;
+	protected int curHP;
+	protected int maxHP;
+	protected Box hurtbox;
 	protected int curState;
 	protected int curDirection;
 	protected boolean vulnerable;
@@ -26,21 +26,24 @@ public class Character implements GameInfo{
 	}
 	
 	public Character(String fName){
+		initChar(fName);
+	}
+	
+	public Character(String fName, int MaxHP){
+		maxHP = MaxHP;
+		initChar(fName);
+	}
+	
+	private void initChar(String fName){
+		hurtbox = new Box(13, 48, 40, 12);
+		hurtbox.changeOffset(x, y);
+		
 		frameCounter = 0;
 		curState = 0;
 		curDirection = DOWN;
 		name = fName;
 		loadAnimations();
-		vulnerable = true;
-	}
-	
-	public Character(String fName, int MaxHP){
-		frameCounter = 0;
-		curState = 0;
-		maxHP = MaxHP;
-		curHP = maxHP;
-		name = fName;
-		loadAnimations();
+		vulnerable = true;		
 	}
 	
 	public void loadAnimations(){
@@ -80,6 +83,10 @@ public class Character implements GameInfo{
 			frameCounter = 0;
 		
 		return walkAnimation[curDirection][curFrame];
+	}
+	
+	public Box getHurtbox(){
+		return hurtbox;
 	}
 	
 	public int getX(){
@@ -138,10 +145,20 @@ public class Character implements GameInfo{
 	public void setLocation(int xLoc, int yLoc){
 		x = xLoc;
 		y = yLoc;
+		hurtbox.changeOffset(x, y);
 	}
 	
 	public void changeLocation(int xChange, int yChange){
+		prevX = x;
+		prevY = y;
 		x += xChange;
 		y += yChange;
+		hurtbox.changeOffset(x, y);
+	}
+	
+	public void moveToPrev(){
+		x = prevX;
+		y = prevY;
+		hurtbox.changeOffset(x, y);
 	}
 }
