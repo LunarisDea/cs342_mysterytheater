@@ -1,34 +1,16 @@
-Mar 28, Tuesday
-  - Main character walk animation
-  - Room design 1
-  
-Mar 29, Wednesday
-  - Organize github repo
-  - Enemy design 1
-  - Room 1 art
-
-Mar 30, Thursday
-  - Enemy 1 walk animation
-  - Main character attack animation
-  
-Mar 31, Friday
-  - Room 2 design + art
-  - Enemy design 2
-  
 Apr 1, Saturday
-  - Room import code
-  - Room 3 design + art
-  - Enemy walk animation
-  - Launcher art + Defeat screen (if time permits)
-  
+  - 3rd Room
+  - Enemy design and walk animation
+  - Main character attack animation
+  - Trial outside tester
+
 Apr 2, Sunday
-  - Enemy ai
-  - Touchup images
+  - Basic enemy ai
+  - Launcher art + Defeat screen (if time permits)    
   - Alpha Demo Test Run
-  - Basic boss enemy (if time permits)
 
 Apr 3, Monday
-  - Fix any issues
+  - Fix issues/get stable version
   
-Apr 4, 
+Apr 4, Tuesday
   - Alpha Demo
