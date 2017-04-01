@@ -28,25 +28,18 @@ public class Board extends JPanel implements Runnable, GameInfo{
 	private char attackOneMapping = 0;
 	private char attackTwoMapping = 0;
 	
+	private Image hpImage;
+	
 	public Board() {
-//	public Board(char moveLeftMapping,
-//	  char moveRightMapping,
-//	  char moveUpMapping,
-//	  char moveDownMapping,
-//	  char attackOneMapping,
-//	  char attackTwoMapping) {
-//		this.moveLeftMapping = moveLeftMapping;
-//		this.moveRightMapping = moveRightMapping;
-//		this.moveUpMapping = moveUpMapping;
-//		this.moveDownMapping = moveDownMapping;
-//		this.attackOneMapping = attackOneMapping;
-//		this.attackTwoMapping = attackTwoMapping;
 		addKeyListener(new KeyInput());
 		setFocusable(true);
 		initBoard();
 	}
 	
 	private void initBoard() {	
+		ImageIcon ii = new ImageIcon("UI/hp.png");
+		Image hpImage = ii.getImage();
+		
 		setBackground(Color.BLACK);
 		bWidth = bWidth * Global.size; 
 		bHeight = bHeight * Global.size;
@@ -70,20 +63,39 @@ public class Board extends JPanel implements Runnable, GameInfo{
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-		g.drawImage(room.getImage(), 0, 0, this);	
+		g.drawImage(room.getBgImage(), 0, 0, this);	
 		drawCharacters(g);
-		drawUI(g);	
+		g.drawImage(room.getFgImage(), 0, 0, this);
+		drawUI(g);
 	}	
 	
 	private void drawUI(Graphics g){
 		int numHP = player.getCurHP();
 		
-		ImageIcon ii = new ImageIcon("UI/hp.png");
-		Image hpImage = ii.getImage();
-		//hpImage = hpImage.getScaledInstance(8*Global.size, 8 * Global.size, Image.SCALE_DEFAULT);
-		
 		for (int i=2; i<=numHP+1; i++)
 			g.drawImage(hpImage, (INTERNAL_WIDTH*Global.size-(i*32)), 40, this);
+		
+		if (Global.showHitboxes){
+			//player hurtbox
+			Box curBox = player.getHurtbox();
+			g.setColor(Color.BLUE);
+			g.drawRect(curBox.getX(), curBox.getY(), curBox.getWidth(), curBox.getHeight()); 
+			//enemy hurtboxes
+			//env boxes	
+			g.setColor(Color.GREEN);
+			int numObjects = room.getNumObjects();
+			for (int i = 0; i<numObjects; i++){
+				curBox = room.getCollisionBox(i);
+				g.drawRect(curBox.getX(), curBox.getY(), curBox.getWidth(), curBox.getHeight()); 
+			}
+			//transition boxes
+			g.setColor(Color.YELLOW);
+			int numTrans = room.getNumTransitions();
+			for (int i=0; i<numTrans; i++){
+				curBox = room.getTransitionBox(i);
+				g.drawRect(curBox.getX(), curBox.getY(), curBox.getWidth(), curBox.getHeight());
+			}
+		}
 	}
 	
 	private void drawCharacters(Graphics g){	
@@ -93,6 +105,7 @@ public class Board extends JPanel implements Runnable, GameInfo{
 	
 	private void cycle(){
 		player.move();
+		room.envCollisionDetector(player);
 		room.borderCollisionDetector(player);
 	}
 	
