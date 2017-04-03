@@ -15,6 +15,8 @@ public class Character implements GameInfo{
 	private Image[] idleAnimation = new Image[4];
 	private Image[][] walkAnimation = new Image[4][4];
 	private Image[][] attackAnimation = new Image[4][4];
+	private Image[] specialImages = new Image[1];
+	protected int special = -1;
 	
 	private int width = 64;
 	private int height = 64;
@@ -47,17 +49,22 @@ public class Character implements GameInfo{
 	}
 	
 	public void loadAnimations(){
+		String fName = "Images/"+name+"/";
+		ImageIcon ii = new ImageIcon(fName + "s0.png");
+		specialImages[0] = ii.getImage();
+		specialImages[0] = specialImages[0].getScaledInstance(width * Global.size, height * Global.size, Image.SCALE_DEFAULT);
+		
 		for (int j = 0; j<4; j++){
-			ImageIcon ii = new ImageIcon("Images/"+name+"/" + j + ".png");
+			ii = new ImageIcon(fName + j + ".png");
 			idleAnimation[j] = ii.getImage();
 			idleAnimation[j] =  idleAnimation[j].getScaledInstance(width * Global.size, height * Global.size, Image.SCALE_DEFAULT);
 			for (int i = 0; i<4; i++){		
-				ii = new ImageIcon("Images/"+name+"/" + "w" + j + i + ".png");
+				ii = new ImageIcon(fName + "w" + j + i + ".png");
 				//walkAnimation[i] = ii.getImage();
 				walkAnimation[j][i] = ii.getImage();
 				walkAnimation[j][i] = walkAnimation[j][i].getScaledInstance(width * Global.size, height * Global.size, Image.SCALE_DEFAULT);
 				
-				ii = new ImageIcon("Images/"+name+"/" + "a" + j + i + ".png");
+				ii = new ImageIcon(fName + "a" + j + i + ".png");
 				attackAnimation[j][i] = ii.getImage();
 				attackAnimation[j][i] = attackAnimation[j][i].getScaledInstance(width * Global.size, height * Global.size, Image.SCALE_DEFAULT);
 			}
@@ -65,6 +72,9 @@ public class Character implements GameInfo{
 	}
 	
 	public Image getCurImage(){
+		if (special == 0){
+			return specialImages[0];
+		}		
 		if (curState == 0){
 			return idleAnimation[curDirection];
 		}
