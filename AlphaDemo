@@ -6,10 +6,10 @@ Must have:
 -2 Enemy Types (at least 1 of which will have basic AI and attack).
 -3 rooms.
 -Hitboxes and hurtboxes.
--An environmental object with collision (statue/pillar/wall/etc).
+-An environmental object with collision (statue/pillar/wall/etc). [done]
 -Background music.
 -Basic sound effects.
--Game Launcher keybinding.
+-Game Launcher keybinding. [done]
 -Game Launcher volume slider.
 
 Stretch goal:
@@ -33,11 +33,11 @@ Stretch goal:
 
 Peter:
 Must have:
--Character and enemy pixelArt + animation
--Room design/art
--Room import (ie, enemy spawns + environmental collision)
--Room collision detection
--Basic enemy AI
+-Character and enemy pixelArt + animation [character: done; enemy: in progress]
+-Room design/art [2 rooms done, 3rd in progress]
+-Room import (ie, enemy spawns + environmental collision) [env collisions: done; enemy spawn: waiting for enemy code]
+-Room collision detection [done]
+-Basic enemy AI [waiting for enemy code]
 Stretch Goals:
 -Launcher art
 -Defeat screen
@@ -46,7 +46,7 @@ Stretch Goals:
 Megan:
 Must have:
 -A background song
--Key remapping
+-Key remapping [done]
 -Launcher volume slider
 -Pause feature
 Stretch goals:
