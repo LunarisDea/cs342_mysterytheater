@@ -190,7 +190,7 @@ public class Room implements GameInfo{
 				roomTransitionWithoutMovement(i);
 		}
 		
-		if (player.getX() + player.getWidth() > INTERNAL_WIDTH){
+		if (playerBox.getX() + playerBox.getWidth() > INTERNAL_WIDTH){
 			if (framesSinceRoomEnter > 60){
 				rightRoom(player);
 			}
@@ -198,7 +198,7 @@ public class Room implements GameInfo{
 				player.moveToPrev();
 			}
 		}
-		else if (player.getX() < 0){
+		else if (playerBox.getX() < 0){
 			if (framesSinceRoomEnter > 60){
 				leftRoom(player);
 			}
@@ -206,7 +206,7 @@ public class Room implements GameInfo{
 				player.moveToPrev();
 			}
 		}
-		else if (player.getY() + player.getHeight() > INTERNAL_HEIGHT){
+		else if (playerBox.getY() + playerBox.getHeight() > INTERNAL_HEIGHT){
 			if (framesSinceRoomEnter > 60){
 				downRoom(player);
 			}
@@ -214,7 +214,7 @@ public class Room implements GameInfo{
 				player.moveToPrev();
 			}
 		}
-		else if (player.getY() < 0){
+		else if (playerBox.getY() < 0){
 			if (framesSinceRoomEnter > 60){
 				upRoom(player);
 			}
