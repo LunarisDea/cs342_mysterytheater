@@ -22,6 +22,7 @@ public class Player extends Character implements GameInfo{
 	private int moveDownMapping;
 	private int attackOneMapping;
 	private int actionButtonMapping;
+		
 
 	
 	public static Player getInstance(){
@@ -102,21 +103,7 @@ public class Player extends Character implements GameInfo{
 			return;
 		int key = e.getKeyCode();
 		
-		//REMOVE once keymapping 100% works
-		if (key == KeyEvent.VK_LEFT) {
-			keyPressedHelper(LEFT, -1, 0);
-		}
-		else if (key == KeyEvent.VK_RIGHT) {	
-			keyPressedHelper(RIGHT, 1, 0);		
-		}
-		else if (key == KeyEvent.VK_UP) {
-			keyPressedHelper(UP, 0, -1);			
-		}
-		else if (key == KeyEvent.VK_DOWN) {	
-			keyPressedHelper(DOWN, 0, 1);
-		}
-		//REMOVE once keymapping 100% works
-		else if (key == actionButtonMapping){
+		if (key == actionButtonMapping){
 			performAction();
 		}
 		else if (key == moveLeftMapping) {
@@ -167,26 +154,35 @@ public class Player extends Character implements GameInfo{
 	public void keyReleased(KeyEvent e){
 		int key = e.getKeyCode();
 
-		if (key == KeyEvent.VK_LEFT || key == moveLeftMapping){
+		if (key == moveLeftMapping){
 			keyDown[LEFT] = false;
 			xDir = 0;
 			checkOtherKeys();
 		}
-		else if (key == KeyEvent.VK_RIGHT || key == moveRightMapping){
+		else if (key == moveRightMapping){
 			keyDown[RIGHT] = false;
 			xDir = 0;	
 			checkOtherKeys();			
 		}
-		else if (key == KeyEvent.VK_UP || key == moveUpMapping){
+		else if (key == moveUpMapping){
 			keyDown[UP] = false;
 			yDir = 0;
 			checkOtherKeys();			
 		}
-		else if (key == KeyEvent.VK_DOWN || key == moveDownMapping){
+		else if (key == moveDownMapping){
 			keyDown[DOWN] = false;
 			yDir = 0;
 			checkOtherKeys();			
 		}
+	}
+	
+	public void releaseKeys(){
+		keyDown[LEFT] = false;
+		keyDown[RIGHT] = false;
+		keyDown[UP] = false;
+		keyDown[DOWN] = false;
+		xDir = 0;
+		yDir = 0;
 	}
 	
 	public void checkOtherKeys(){
@@ -206,6 +202,7 @@ public class Player extends Character implements GameInfo{
 	
 	public void cutscene(int number){
 		setUnactable();
+		releaseKeys();		
 		cutsceneNumber = number;
 	}
 	
