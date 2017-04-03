@@ -134,14 +134,7 @@ public class Player extends Character implements GameInfo{
 			moveDownMapping = reader.read();
 			attackOneMapping = reader.read();
 			actionButtonMapping = reader.read();
-			
-			moveLeftMapping = checkForSpecialKeys(moveLeftMapping);
-			moveRightMapping = checkForSpecialKeys(moveRightMapping);
-			moveUpMapping = checkForSpecialKeys(moveUpMapping);
-			moveDownMapping = checkForSpecialKeys(moveDownMapping);
-			attackOneMapping = checkForSpecialKeys(attackOneMapping);
-			actionButtonMapping = checkForSpecialKeys(actionButtonMapping);
-			
+
 			System.out.println(" move left mapping = " + moveLeftMapping);
 			System.out.println(" move right mapping = " + moveRightMapping);
 			System.out.println(" move up mapping = " + moveUpMapping);
@@ -156,20 +149,6 @@ public class Player extends Character implements GameInfo{
 			//GameLauncher gl = new GameLauncher();
 			System.exit(-1);
 		}		
-	}
-	
-	private int checkForSpecialKeys(int code){
-		if (code == 76) //left
-			code = 37;
-		else if (code == 69) //right
-			code = 39;
-		else if (code == 70) //up
-			code = 38;
-		else if (code == 84) //down
-			code = 40;
-		else if (code == 73) //space
-			code = 32;
-		return code;
 	}
 	
 	public void keyReleased(KeyEvent e){
@@ -242,10 +221,12 @@ public class Player extends Character implements GameInfo{
 			else if (x < 478){
 				changeLocation(1, 0);
 			}
-			else if (cutsceneFrame <= 360){
+			else if (cutsceneFrame <= 240){ 	
+				special = 0;
 				curDirection = DOWN;
 			}
 			else{
+				special = -1;
 				setActable();
 				Room.getInstance().changeOverlay(0);
 				cutsceneNumber = 0;
