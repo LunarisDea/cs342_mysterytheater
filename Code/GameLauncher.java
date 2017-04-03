@@ -7,6 +7,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -15,7 +17,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import javax.swing.JTextField;
 
-public class GameLauncher extends JFrame {
+public class GameLauncher extends JFrame implements KeyListener{
 
 	/**
 	 * 
@@ -29,21 +31,42 @@ public class GameLauncher extends JFrame {
 	private static final int RESOLUTION_1920_x_1080 = 3;
 	private static final int RESOLUTION_2560_x_1440 = 4;
 	/*
-	private static final String MOVE_LEFT_MAPPING = "J";
-	private static final String MOVE_RIGHT_MAPPING = "L";
-	private static final String MOVE_UP_MAPPING = "I";
-	private static final String MOVE_DOWN_MAPPING = "K";
-	private static final String ATTACK_ONE_MAPPING = "U";
-	private static final String ATTACK_TWO_MAPPING = "O";
+	 * following are the defaults:
+	private static final int MOVE_LEFT_MAPPING = KeyEvent.VK_LEFT;
+	private static final int MOVE_RIGHT_MAPPING = KeyEvent.VK_RIGHT;
+	private static final int MOVE_UP_MAPPING = KeyEvent.VK_UP;
+	private static final int MOVE_DOWN_MAPPING = KeyEvent.VK_DOWN;
+	private static final int ATTACK_ONE_MAPPING = "U";
+	private static final int ATTACK_TWO_MAPPING = "O";
+	
+		if (key == KeyEvent.VK_LEFT) {
+			keyPressedHelper(LEFT, -1, 0);
+		}
+		else if (key == KeyEvent.VK_RIGHT) {	
+			keyPressedHelper(RIGHT, 1, 0);		
+		}
+		else if (key == KeyEvent.VK_UP) {
+			keyPressedHelper(UP, 0, -1);			
+		}
+		else if (key == KeyEvent.VK_DOWN) {	
+			keyPressedHelper(DOWN, 0, 1);
+		}
+
 	*/
 	private int resolution = RESOLUTION_640_x_480;  // set resolution to default of 640 x 480
-	private JTextField textMoveLeft;
-	private JTextField textMoveRight;
-	private JTextField textMoveUp;
-	private JTextField textMoveDown;
-	private JTextField textAttackOne;
-	private JTextField textAttackTwo;
-	
+//	private JTextField textMoveLeft;
+//	private JTextField textMoveRight;
+//	private JTextField textMoveUp;
+//	private JTextField textMoveDown;
+//	private JTextField textAttackOne;
+//	private JTextField textAttackTwo;
+
+	private JButton btnMoveLeft;
+	private JButton btnMoveRight;
+	private JButton btnMoveUp;
+	private JButton btnMoveDown;
+	private JButton btnAttackOne;
+	private JButton btnAttackTwo;
 	/**
 	 * Launch the application.
 	 */
@@ -121,47 +144,209 @@ public class GameLauncher extends JFrame {
 		panel_1.add(panel_1b);
 		panel_1b.setLayout(new GridLayout(6, 2, 0, 0));
 		
-		JLabel lblMoveLeft = new JLabel("Move Left Key Mapping");
+		JLabel lblMoveLeft = new JLabel("Move Left Key");
 		panel_1b.add(lblMoveLeft);
 		
-		textMoveLeft = new JTextField();
-		panel_1b.add(textMoveLeft);
-		textMoveLeft.setColumns(10);
+		btnMoveLeft = new JButton("Left");
+		panel_1b.add(btnMoveLeft);
+		btnMoveLeft.setText("A");
 		
-		JLabel lblMoveRight = new JLabel("Move Right Key Mapping");
+		JLabel lblMoveRight = new JLabel("Move Right Key");
 		panel_1b.add(lblMoveRight);
 		
-		textMoveRight = new JTextField();
-		panel_1b.add(textMoveRight);
-		textMoveRight.setColumns(10);
+		btnMoveLeft.addKeyListener(new KeyListener(){
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				btnMoveLeft.setText(getKeyInfo(e));
+			}
+
+			private String getKeyChar() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+		});
 		
-		JLabel lblMoveUp = new JLabel("Move Up Key Mapping");
+		btnMoveRight = new JButton("Right");
+		panel_1b.add(btnMoveRight);
+		btnMoveRight.setText("D");
+		
+		btnMoveRight.addKeyListener(new KeyListener(){
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				btnMoveRight.setText(getKeyInfo(e));
+			}
+
+			private String getKeyChar() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+		});
+		
+		JLabel lblMoveUp = new JLabel("Move Up Key");
 		panel_1b.add(lblMoveUp);
 		
-		textMoveUp = new JTextField();
-		panel_1b.add(textMoveUp);
-		textMoveUp.setColumns(10);
+		btnMoveUp = new JButton("Up");
+		panel_1b.add(btnMoveUp);
+		btnMoveUp.setText("W");
 		
-		JLabel lblMoveDown = new JLabel("Move Down Key Mapping");
+		btnMoveUp.addKeyListener(new KeyListener(){
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				btnMoveUp.setText(getKeyInfo(e));
+			}
+
+			private String getKeyChar() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+		});
+		
+		JLabel lblMoveDown = new JLabel("Move Down Key");
 		panel_1b.add(lblMoveDown);
 		
-		textMoveDown = new JTextField();
-		panel_1b.add(textMoveDown);
-		textMoveDown.setColumns(10);
+		btnMoveDown = new JButton("Down");
+		panel_1b.add(btnMoveDown);
+		btnMoveDown.setText("S");
+		
+		btnMoveDown.addKeyListener(new KeyListener(){
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				btnMoveDown.setText(getKeyInfo(e));
+			}
+
+			private String getKeyChar() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+		});
 		
 		JLabel lblAttackOne = new JLabel("Attack One Key Mapping");
 		panel_1b.add(lblAttackOne);
 		
-		textAttackOne = new JTextField();
-		panel_1b.add(textAttackOne);
-		textAttackOne.setColumns(10);
+		btnAttackOne = new JButton("Attack1");
+		panel_1b.add(btnAttackOne);
+		btnAttackOne.setText("Q");
 		
-		JLabel lblAttackTwo = new JLabel("AttackTwo Key Mapping");
+		btnAttackOne.addKeyListener(new KeyListener(){
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				btnAttackOne.setText(getKeyInfo(e));
+			}
+
+			private String getKeyChar() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+		});
+		
+		JLabel lblAttackTwo = new JLabel("AttackTwo Key");
 		panel_1b.add(lblAttackTwo);
 		
-		textAttackTwo = new JTextField();
-		panel_1b.add(textAttackTwo);
-		textAttackTwo.setColumns(10);
+		btnAttackTwo = new JButton("Attack2");
+		panel_1b.add(btnAttackTwo);
+		btnAttackTwo.setText("E");
+		
+		btnAttackTwo.addKeyListener(new KeyListener(){
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				btnAttackTwo.setText(getKeyInfo(e));
+			}
+
+			private String getKeyChar() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+		});
 		
 		JPanel panel_2 = new JPanel();
 		contentPane.add(panel_2, BorderLayout.SOUTH);
@@ -175,12 +360,12 @@ public class GameLauncher extends JFrame {
 				try {
 					FileWriter writer = new FileWriter(file);
 					writer.write(resolution);
-					writer.write(textMoveLeft.getText().toUpperCase());
-					writer.write(textMoveRight.getText().toUpperCase());
-					writer.write(textMoveUp.getText().toUpperCase());
-					writer.write(textMoveDown.getText().toUpperCase());
-					writer.write(textAttackOne.getText().toUpperCase());
-					writer.write(textAttackTwo.getText().toUpperCase());
+					writer.write(btnMoveLeft.getText().toUpperCase());
+					writer.write(btnMoveRight.getText().toUpperCase());
+					writer.write(btnMoveUp.getText().toUpperCase());
+					writer.write(btnMoveDown.getText().toUpperCase());
+					writer.write(btnAttackOne.getText().toUpperCase());
+					writer.write(btnAttackTwo.getText().toUpperCase());
 					writer.close();
 					MysteryTheater.main(new String[0]);
 					setVisible(false);
@@ -192,6 +377,42 @@ public class GameLauncher extends JFrame {
 			}
 		});
 		panel_2.add(startButton);
+}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+//Source: https://docs.oracle.com/javase/tutorial/uiswing/events/keylistener.html
+private String getKeyInfo(KeyEvent e){
+        
+        //You should only rely on the key char if the event
+        //is a key typed event.
+        int id = e.getID();
+        String keyString;
+        if (id == KeyEvent.KEY_TYPED) {
+            char c = e.getKeyChar();
+            keyString = "'" + c + "'";
+        } else {
+            int keyCode = e.getKeyCode();
+            keyString = KeyEvent.getKeyText(keyCode)
+                    ;
+        }
+        return keyString;
 }
 
 }
