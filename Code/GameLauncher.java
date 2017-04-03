@@ -67,6 +67,13 @@ public class GameLauncher extends JFrame implements KeyListener{
 	private JButton btnMoveDown;
 	private JButton btnAttackOne;
 	private JButton btnAttackTwo;
+	
+	private int left;
+	private int right;
+	private int down;
+	private int up;
+	private int attack;
+	private int action;
 	/**
 	 * Launch the application.
 	 */
@@ -171,6 +178,7 @@ public class GameLauncher extends JFrame implements KeyListener{
 			@Override
 			public void keyReleased(KeyEvent e) {
 				// TODO Auto-generated method stub
+				left = e.getKeyCode();
 				btnMoveLeft.setText(getKeyInfo(e));
 			}
 
@@ -202,6 +210,7 @@ public class GameLauncher extends JFrame implements KeyListener{
 			@Override
 			public void keyReleased(KeyEvent e) {
 				// TODO Auto-generated method stub
+				right = e.getKeyCode();
 				btnMoveRight.setText(getKeyInfo(e));
 			}
 
@@ -236,6 +245,7 @@ public class GameLauncher extends JFrame implements KeyListener{
 			@Override
 			public void keyReleased(KeyEvent e) {
 				// TODO Auto-generated method stub
+				up = e.getKeyCode();
 				btnMoveUp.setText(getKeyInfo(e));
 			}
 
@@ -270,6 +280,7 @@ public class GameLauncher extends JFrame implements KeyListener{
 			@Override
 			public void keyReleased(KeyEvent e) {
 				// TODO Auto-generated method stub
+				down = e.getKeyCode();
 				btnMoveDown.setText(getKeyInfo(e));
 			}
 
@@ -304,6 +315,7 @@ public class GameLauncher extends JFrame implements KeyListener{
 			@Override
 			public void keyReleased(KeyEvent e) {
 				// TODO Auto-generated method stub
+				attack = e.getKeyCode();
 				btnAttackOne.setText(getKeyInfo(e));
 			}
 
@@ -314,7 +326,7 @@ public class GameLauncher extends JFrame implements KeyListener{
 			
 		});
 		
-		JLabel lblAttackTwo = new JLabel("AttackTwo Key");
+		JLabel lblAttackTwo = new JLabel("Action Key");
 		panel_1b.add(lblAttackTwo);
 		
 		btnAttackTwo = new JButton("Attack2");
@@ -338,6 +350,7 @@ public class GameLauncher extends JFrame implements KeyListener{
 			@Override
 			public void keyReleased(KeyEvent e) {
 				// TODO Auto-generated method stub
+				action = e.getKeyCode();
 				btnAttackTwo.setText(getKeyInfo(e));
 			}
 
@@ -360,12 +373,12 @@ public class GameLauncher extends JFrame implements KeyListener{
 				try {
 					FileWriter writer = new FileWriter(file);
 					writer.write(resolution);
-					writer.write(btnMoveLeft.getText().toUpperCase());
-					writer.write(btnMoveRight.getText().toUpperCase());
-					writer.write(btnMoveUp.getText().toUpperCase());
-					writer.write(btnMoveDown.getText().toUpperCase());
-					writer.write(btnAttackOne.getText().toUpperCase());
-					writer.write(btnAttackTwo.getText().toUpperCase());
+					writer.write(left);
+					writer.write(right);
+					writer.write(up);
+					writer.write(down);
+					writer.write(attack);
+					writer.write(action);
 					writer.close();
 					MysteryTheater.main(new String[0]);
 					setVisible(false);
@@ -409,10 +422,8 @@ private String getKeyInfo(KeyEvent e){
             keyString = "'" + c + "'";
         } else {
             int keyCode = e.getKeyCode();
-            keyString = KeyEvent.getKeyText(keyCode)
-                    ;
+            keyString = KeyEvent.getKeyText(keyCode);
         }
         return keyString;
 }
-
 }
