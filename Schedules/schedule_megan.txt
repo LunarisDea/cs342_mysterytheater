@@ -1,5 +1,3 @@
 Schedule and deliverables:
-  - code for game launcher
-    -> continue key remapping 02 Aoril (estimate: 4 hours)
-  - add volume slider
+  - add volume slider for alpha demo 04 April (estimate: NA)
   - complete pieces for alpha demo 04 April (estimate: NA)
