@@ -27,7 +27,7 @@ public class Room implements GameInfo{
 	private Box[] collisionBoxes;
 	private Box[] actionBoxes;	
 	private Box[] transitionBoxes;
-	private LinkedList<Enemy>[] enemyList;
+	private Enemy[] enemies;
 	
 	public static Room getInstance(){
 		if (instance == null){
@@ -64,11 +64,11 @@ public class Room implements GameInfo{
 		collisionBoxes = new Box[16];
 		actionBoxes = new Box[16];
 		transitionBoxes = new Box[4];
-		enemyList= new LinkedList[3];
+		enemies= new Enemy[16];
 		numCollidables = 0;
 		numActables = 0;
 		numTransitions = 0;
-		numEnemies=0;
+		numEnemies = 0;
 		int val = 0;
 	
 		try{	
@@ -108,12 +108,11 @@ public class Room implements GameInfo{
 			}
 
 			val= scan.nextInt();
-			while(val != -1){
-				int hash=(roomNum-100)/10;
+			while(val != -1){ //enemies
 				int type=val;
-				Enemy enemy= new Enemy(type);
-				enemyList[hash]=new LinkedList<Enemy>();
-				enemyList[hash].add(enemy);
+				int x = scan.nextInt();
+				int y = scan.nextInt();
+				enemies[numEnemies] = new Enemy(type, x, y);
 				numEnemies++;
 				val=scan.nextInt();
 			}
@@ -146,13 +145,13 @@ public class Room implements GameInfo{
 	public Box getTransitionBox(int transitionNumber){
 		return transitionBoxes[transitionNumber];
 	}
-
-	public LinkedList<Enemy> getEnemyList(int roomNumber){
-		return enemyList[(roomNumber-100)/10];
-	}
-
+	
 	public int getNumEnemies(){
 		return numEnemies;
+	}
+	
+	public Enemy getEnemy(int i){
+		return enemies[i];
 	}
 	
 	private void upRoom(Player player){
@@ -254,6 +253,23 @@ public class Room implements GameInfo{
 			if (playerBox.isOverlapped(collisionBoxes[i]))
 				player.moveToPrev();
 		}
+	}
+	
+	public void enemyCollisionDetector(Player player){
+		Box playerBox = player.getHurtbox();
+		for (int i=0; i < numEnemies; i++){
+			if (playerBox.isOverlapped(enemies[i].getHurtbox())){
+				player.moveToPrev();			
+			}
+		}
+	}
+	
+	public void attackCollisionDetector(Box attackBox){
+		for (int i=0; i < numEnemies; i++){
+			if (attackBox.isOverlapped(enemies[i].getHurtbox())){
+				enemies[i].takeDamage(1);		
+			}
+		}		
 	}
 	
 	public void performAction(int actionNum){
