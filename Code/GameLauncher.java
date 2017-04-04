@@ -16,6 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import javax.swing.JTextField;
+import javax.sound.sampled.*;
 
 public class GameLauncher extends JFrame implements KeyListener{
 
@@ -160,6 +161,21 @@ public class GameLauncher extends JFrame implements KeyListener{
 		
 		JLabel lblMoveRight = new JLabel("Move Right Key");
 		panel_1b.add(lblMoveRight);
+		
+		try {
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream (
+			     new File("BkgrndMusic.wav"));
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioInputStream);
+			FloatControl gainControl = 
+				    (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+				gainControl.setValue(-10.0f); // Reduce volume by 10 decibels.
+				clip.start();
+		}
+	   catch (LineUnavailableException  | IOException | UnsupportedAudioFileException  e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		btnMoveLeft.addKeyListener(new KeyListener(){
 
