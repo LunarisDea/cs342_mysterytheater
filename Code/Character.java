@@ -10,9 +10,14 @@ public class Character implements GameInfo{
 	protected int curState;
 	protected int curDirection;
 	protected boolean vulnerable;
+	protected int invulnFrames;
+	
+	protected int attackFrames;
+	protected Box hitbox;
 	
 	private int frameCounter;
 	private Image[] idleAnimation = new Image[4];
+	private Image[] damageAnimation = new Image[4];
 	private Image[][] walkAnimation = new Image[4][4];
 	private Image[][] attackAnimation = new Image[4][4];
 	private Image[] specialImages = new Image[1];
@@ -26,19 +31,18 @@ public class Character implements GameInfo{
 	public Character(){
 		
 	}
-	
-	public Character(String fName){
-		initChar(fName);
-	}
-	
-	public Character(String fName, int MaxHP){
-		maxHP = MaxHP;
-		initChar(fName);
-	}
-	
-	private void initChar(String fName){
-		hurtbox = new Box(13, 48, 40, 12);
+
+	protected void initChar(String fName, Box hurt, Box hit){
+		hurtbox = hurt;
 		hurtbox.changeOffset(x, y);
+		vulnerable = true;
+		maxHP = 4;
+		curHP = 4;
+		
+		hitbox = hit;
+		hitbox.changeOffset(10000, 10000);
+		attackFrames = -1;
+		invulnFrames = -1;
 		
 		frameCounter = 0;
 		curState = 0;
@@ -58,6 +62,11 @@ public class Character implements GameInfo{
 			ii = new ImageIcon(fName + j + ".png");
 			idleAnimation[j] = ii.getImage();
 			idleAnimation[j] =  idleAnimation[j].getScaledInstance(width * Global.size, height * Global.size, Image.SCALE_DEFAULT);
+			
+			ii = new ImageIcon(fName + "d" + j + ".png");
+			damageAnimation[j] = ii.getImage();
+			damageAnimation[j] =  damageAnimation[j].getScaledInstance(width * Global.size, height * Global.size, Image.SCALE_DEFAULT);			
+			
 			for (int i = 0; i<4; i++){		
 				ii = new ImageIcon(fName + "w" + j + i + ".png");
 				//walkAnimation[i] = ii.getImage();
@@ -72,8 +81,28 @@ public class Character implements GameInfo{
 	}
 	
 	public Image getCurImage(){
-		if (special == 0){
-			return specialImages[0];
+		if (isAttacking()){
+			attackFrames++;
+			if (attackFrames <= 30){ //hitbox is out
+				attackHelper();
+			}
+			else if (attackFrames == 31){ //attack has ended
+				hitbox.changeOffset(10000, 10000);
+			}
+			else if (attackFrames > 60){ //can attack again
+				attackFrames = -1;
+			}
+		}
+		if (special != -1){
+			return specialImages[special];
+		}	
+		if (invulnFrames != -1){
+			invulnFrames++;
+			if (invulnFrames >= 50){
+				vulnerable = true;
+				invulnFrames = -1;
+			}
+			return damageAnimation[curDirection];
 		}		
 		if (curState == 0){
 			return idleAnimation[curDirection];
@@ -97,6 +126,10 @@ public class Character implements GameInfo{
 	
 	public Box getHurtbox(){
 		return hurtbox;
+	}
+	
+	public Box getHitbox(){
+		return hitbox;
 	}
 	
 	public int getX(){
@@ -146,12 +179,46 @@ public class Character implements GameInfo{
 	}
 	
 	public void takeDamage(int damage){
+		if (vulnerable == false)
+			return;
 		curHP = curHP - damage;
 		if (curHP <= 0){
-			//character died
+			changeLocation(5000, 5000); //temp
 		}
+		vulnerable = false;
+		invulnFrames = 0;
 	}
 	
+	protected void attackHelper(){
+		if (curDirection == UP){
+			hitbox.changeOffset(x+17, y);
+		}
+		else if (curDirection == RIGHT){
+			hitbox.changeOffset(x+50, y+30);
+		}
+		else if (curDirection == DOWN){
+			hitbox.changeOffset(x+16, y+60);
+		}
+		else { //LEFT
+			hitbox.changeOffset(x-18, y+30);
+		}
+		Room.getInstance().attackCollisionDetector(hitbox);			
+	}
+	
+	protected void attack(){
+		if (attackFrames != -1)
+			return;
+		
+		attackFrames = 0;
+		attackHelper();
+	}
+		
+	public boolean isAttacking(){
+		if (attackFrames == -1)
+			return false;
+		return true;
+	}
+		
 	public void setLocation(int xLoc, int yLoc){
 		x = xLoc;
 		y = yLoc;
