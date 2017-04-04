@@ -20,10 +20,8 @@ public class Player extends Character implements GameInfo{
 	private int moveRightMapping;
 	private int moveUpMapping;
 	private int moveDownMapping;
-	private int attackOneMapping;
+	private int attackMapping;
 	private int actionButtonMapping;
-		
-
 	
 	public static Player getInstance(){
 		if (instance == null){
@@ -33,20 +31,17 @@ public class Player extends Character implements GameInfo{
 	}
 	
 	protected Player(){
-		name = "MC";
+		Box hit = new Box(0, 0, 32, 32);		
+		Box hurt = new Box(13, 30, 40, 30);
 		
-		hurtbox = new Box(13, 38, 40, 22);
-		hurtbox.changeOffset(x, y);
-		vulnerable = true;
-		loadAnimations();		
-		setMaxHP(4);
-		keyDown = new boolean[4];
-		for (int i=0; i<4; i++) {
+		initChar("MC", hurt, hit);
+
+		keyDown = new boolean[5]; //UP, RIGHT, DOWN, LEFT, attackkey
+		for (int i=0; i<5; i++) {
 			keyDown[i] = false;
 		}
 		
 		setLocation(293, 55);
-		curDirection = DOWN;
 		
 		readFile();//this sets vals for mappings declared at approx 14-19
 		actable = true;
@@ -103,23 +98,24 @@ public class Player extends Character implements GameInfo{
 			return;
 		int key = e.getKeyCode();
 		
-		if (key == actionButtonMapping){
-			performAction();
-		}
-		else if (key == moveLeftMapping) {
-			keyPressedHelper(3, -1, 0);               //same as VK_LEFT
+		if (key == moveLeftMapping) {
+			keyPressedHelper(3, -1, 0);
 		}
 		else if (key == moveRightMapping) {	
-			keyPressedHelper(1, 1, 0);                //same as VK_RIGHT	
+			keyPressedHelper(1, 1, 0);
 		}
 		else if (key == moveUpMapping) {
-			keyPressedHelper(0, 0, -1);               //same as VK_UP		
+			keyPressedHelper(0, 0, -1);
 		}
 		else if (key == moveDownMapping) {	
-			keyPressedHelper(2, 0, 1);                //same as VK_DOWN
+			keyPressedHelper(2, 0, 1);
 		}
-		else if (key == attackOneMapping || key == actionButtonMapping) {
-			curState = 2;
+		else if (key == actionButtonMapping){
+			performAction();
+		}
+		else if (keyDown[4] == false && key == attackMapping){
+			attack();
+			keyDown[4] = true;
 		}
 	}
 
@@ -132,15 +128,15 @@ public class Player extends Character implements GameInfo{
 			moveRightMapping = reader.read();
 			moveUpMapping = reader.read();
 			moveDownMapping = reader.read();
-			attackOneMapping = reader.read();
+			attackMapping = reader.read();
 			actionButtonMapping = reader.read();
 
 			System.out.println(" move left mapping = " + moveLeftMapping);
 			System.out.println(" move right mapping = " + moveRightMapping);
 			System.out.println(" move up mapping = " + moveUpMapping);
 			System.out.println(" move down mapping = " + moveDownMapping);
-			System.out.println(" attack one mapping = " + attackOneMapping);
-			System.out.println(" attack two mapping = " + actionButtonMapping);
+			System.out.println(" attack mapping = " + attackMapping);
+			System.out.println(" action button mapping = " + actionButtonMapping);
 			Global.size = resolution;
 			reader.close();
 		} catch (IOException e) {
@@ -174,6 +170,9 @@ public class Player extends Character implements GameInfo{
 			yDir = 0;
 			checkOtherKeys();			
 		}
+		else if (key == attackMapping){
+			keyDown[4] = false;
+		}
 	}
 	
 	public void releaseKeys(){
@@ -181,6 +180,7 @@ public class Player extends Character implements GameInfo{
 		keyDown[RIGHT] = false;
 		keyDown[UP] = false;
 		keyDown[DOWN] = false;
+		keyDown[4] = false;
 		xDir = 0;
 		yDir = 0;
 	}
