@@ -15,14 +15,35 @@ public class Box{
 		int offsetDiffX = box2.getX() - offsetX;
 		int offsetDiffY = box2.getY() - offsetY;
 		for (int i=0; i<4; i++){
-			if (corners[i].x > offsetDiffX && 
-			    corners[i].x < offsetDiffX + box2.getWidth() &&
-			    corners[i].y > offsetDiffY && 
-				corners[i].y < offsetDiffY + box2.getHeight()){
+			if (corners[i].x >= offsetDiffX && 
+			    corners[i].x <= offsetDiffX + box2.getWidth() &&
+			    corners[i].y >= offsetDiffY && 
+				corners[i].y <= offsetDiffY + box2.getHeight()){
 				return true;
-			}
+			}			
 		}
+		
+		offsetDiffX = getX() - box2.getOffsetX();
+		offsetDiffY = getY() - box2.getOffsetY();
+		for (int i=0; i<4; i++){
+			Coordinate tempCorner = box2.getCorner(i);
+			if (tempCorner.x >= offsetDiffX && 
+			    tempCorner.x <= offsetDiffX + getWidth() &&
+			    tempCorner.y >= offsetDiffY && 
+				tempCorner.y <= offsetDiffY + getHeight()){
+				return true;
+			}			
+		}
+		
 		return false;
+	}
+	
+	public int getOffsetX(){
+		return offsetX;
+	}
+	
+	public int getOffsetY(){
+		return offsetY;
 	}
 	
 	public void changeOffset(int x, int y){
