@@ -69,12 +69,12 @@ public class GameLauncher extends JFrame implements KeyListener{
 	private JButton btnAttackOne;
 	private JButton btnAttackTwo;
 	
-	private int left;
-	private int right;
-	private int down;
-	private int up;
-	private int attack;
-	private int action;
+	private int left = 65;
+	private int right = 68;
+	private int down = 83;
+	private int up = 87;
+	private int attack = 81;
+	private int action = 69;
 	/**
 	 * Launch the application.
 	 */
