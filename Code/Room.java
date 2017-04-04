@@ -23,6 +23,7 @@ public class Room implements GameInfo{
 	private int numCollidables;
 	private int numActables;
 	private int numTransitions;
+	private int numEnemies;
 	private Box[] collisionBoxes;
 	private Box[] actionBoxes;	
 	private Box[] transitionBoxes;
@@ -67,6 +68,7 @@ public class Room implements GameInfo{
 		numCollidables = 0;
 		numActables = 0;
 		numTransitions = 0;
+		numEnemies=0;
 		int val = 0;
 	
 		try{	
@@ -112,6 +114,7 @@ public class Room implements GameInfo{
 				Enemy enemy= new Enemy(type);
 				enemyList[hash]=new LinkedList<Enemy>();
 				enemyList[hash].add(enemy);
+				numEnemies++;
 				val=scan.nextInt();
 			}
 			
@@ -146,6 +149,10 @@ public class Room implements GameInfo{
 
 	public LinkedList<Enemy> getEnemyList(int roomNumber){
 		return enemyList[(roomNumber-100)/10];
+	}
+
+	public int getNumEnemies(){
+		return numEnemies;
 	}
 	
 	private void upRoom(Player player){

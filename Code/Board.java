@@ -52,6 +52,7 @@ public class Board extends JPanel implements Runnable, GameInfo{
 		player = Player.getInstance();
 
 		enemy = new Enemy(1);
+		enemy.setLocation(initX-(DEFAULT_WIDTH/2), initY-(DEFAULT_HEIGHT/2));
 	}
 	
 	@Override
@@ -67,7 +68,9 @@ public class Board extends JPanel implements Runnable, GameInfo{
 		super.paintComponent(g);
 		g.drawImage(room.getBgImage(), 0, 0, this);	
 		drawCharacters(g);
-		drawEnemy(g, enemy);
+		if(room.getNumEnemies()>0){
+			drawEnemy(g, enemy);
+		}
 		g.drawImage(room.getFgImage(), 0, 0, this);
 		room.addOverlay(g);
 		drawUI(g);
@@ -114,7 +117,7 @@ public class Board extends JPanel implements Runnable, GameInfo{
 	}
 
 	private void drawEnemy(Graphics g, Enemy enemy){
-		g.drawImage(enemy.getCurImage(), player.getX() *Global.size, player.getY() *Global.size, this);
+		g.drawImage(enemy.getCurImage(), enemy.getX() *Global.size, enemy.getY() *Global.size, this);
 		Toolkit.getDefaultToolkit().sync();
 	}
 	
