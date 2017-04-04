@@ -19,7 +19,6 @@ public class Board extends JPanel implements Runnable, GameInfo{
 	
 	private Thread animator;
 	private Player player;
-	private Enemy enemy;
 	private Room room;
 	
 	private char moveLeftMapping = 0;
@@ -50,9 +49,6 @@ public class Board extends JPanel implements Runnable, GameInfo{
 		room = Room.getInstance();
 		
 		player = Player.getInstance();
-
-		enemy = new Enemy(1);
-		enemy.setLocation(initX-(DEFAULT_WIDTH/2), initY-(DEFAULT_HEIGHT/2));
 	}
 	
 	@Override
@@ -67,10 +63,8 @@ public class Board extends JPanel implements Runnable, GameInfo{
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		g.drawImage(room.getBgImage(), 0, 0, this);	
+		drawEnemies(g);		
 		drawCharacters(g);
-		if(room.getNumEnemies()>0){
-			drawEnemy(g, enemy);
-		}
 		g.drawImage(room.getFgImage(), 0, 0, this);
 		room.addOverlay(g);
 		drawUI(g);
@@ -87,6 +81,22 @@ public class Board extends JPanel implements Runnable, GameInfo{
 			g.setColor(Color.BLUE);
 			g.drawRect(curBox.getX(), curBox.getY(), curBox.getWidth(), curBox.getHeight()); 
 			//enemy hurtboxes
+			int numEnemies = room.getNumEnemies();
+			for (int i=0; i<numEnemies; i++){
+				curBox = room.getEnemy(i).getHurtbox();
+				g.drawRect(curBox.getX(), curBox.getY(), curBox.getWidth(), curBox.getHeight());
+			}
+			//player attackbox
+			g.setColor(Color.RED);
+			if (player.isAttacking()){
+				curBox = player.getHitbox();
+				g.drawRect(curBox.getX(), curBox.getY(), curBox.getWidth(), curBox.getHeight());
+			}
+			//enemy attackboxes
+			for (int i=0; i<numEnemies; i++){
+				curBox = room.getEnemy(i).getHitbox();
+				g.drawRect(curBox.getX(), curBox.getY(), curBox.getWidth(), curBox.getHeight());
+			}
 			//env boxes	
 			g.setColor(Color.GREEN);
 			int numObjects = room.getNumCollidables();
@@ -116,8 +126,12 @@ public class Board extends JPanel implements Runnable, GameInfo{
 		Toolkit.getDefaultToolkit().sync();
 	}
 
-	private void drawEnemy(Graphics g, Enemy enemy){
-		g.drawImage(enemy.getCurImage(), enemy.getX() *Global.size, enemy.getY() *Global.size, this);
+	private void drawEnemies(Graphics g){
+		//g.drawImage(enemy.getCurImage(), player.getX() *Global.size, player.getY() *Global.size, this);
+		for (int i=0; i<room.getNumEnemies(); i++){
+			Enemy curEnemy = room.getEnemy(i);
+			g.drawImage(curEnemy.getCurImage(), curEnemy.getX() *Global.size, curEnemy.getY() * Global.size, this);
+		}
 		Toolkit.getDefaultToolkit().sync();
 	}
 	
@@ -127,6 +141,7 @@ public class Board extends JPanel implements Runnable, GameInfo{
 			return;
 		room.envCollisionDetector(player);
 		room.borderCollisionDetector(player);
+		room.enemyCollisionDetector(player);
 	}
 	
 	@Override
