@@ -5,7 +5,7 @@ Test demo run on Sunday April 2nd at 10pm.
 Must have:
 -2 Enemy Types (at least 1 of which will have basic AI and attack).
 -3 rooms.
--Hitboxes and hurtboxes.
+-Hitboxes and hurtboxes. [done]
 -An environmental object with collision (statue/pillar/wall/etc). [done]
 -Background music.
 -Basic sound effects.
@@ -22,10 +22,10 @@ Stretch goal:
 Individual components:
 Briana:
 Must have:
--Enemy factory, with 2 different enemy types (This needs to be done by Friday at the latest)
--Character attack
--Character and enemy hitboxes (should have debug draw blue rectangle of hitbox area to make sure correct size/collision detection)
--Character and enemy attack hurtboxes (^above but red)
+-Enemy factory, with 2 different enemy types (This needs to be done by Friday at the latest) [done]
+-Character attack [done:Peter]
+-Character and enemy hitboxes (should have debug draw blue rectangle of hitbox area to make sure correct size/collision detection) [done:Peter]
+-Character and enemy attack hurtboxes (^above but red) [done:Peter]
 -Basic sound effects
 Stretch goal:
 -More enemy types
@@ -35,7 +35,7 @@ Peter:
 Must have:
 -Character and enemy pixelArt + animation [character: done; enemy: in progress]
 -Room design/art [2 rooms done, 3rd in progress]
--Room import (ie, enemy spawns + environmental collision) [env collisions: done; enemy spawn: waiting for enemy code]
+-Room import (ie, enemy spawns + environmental collision) [done]
 -Room collision detection [done]
 -Basic enemy AI [waiting for enemy code]
 Stretch Goals:
