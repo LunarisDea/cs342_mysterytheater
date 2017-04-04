@@ -40,7 +40,7 @@ public class Room implements GameInfo{
 		roomNum = 100;
 		framesSinceRoomEnter = 0;
 		overlay = 0;
-		overlayIntensity = 95;
+		overlayIntensity = 125;
 		loadImages();
 	}
 	
