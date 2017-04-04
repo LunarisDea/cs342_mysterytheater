@@ -21,13 +21,6 @@ public class Board extends JPanel implements Runnable, GameInfo{
 	private Player player;
 	private Room room;
 	
-	private char moveLeftMapping = 0;
-	private char moveRightMapping = 0;
-	private char moveUpMapping = 0;
-	private char moveDownMapping = 0;
-	private char attackOneMapping = 0;
-	private char attackTwoMapping = 0;
-	
 	private Image hpImage;
 	
 	public Board() {
