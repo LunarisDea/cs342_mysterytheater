@@ -9,7 +9,9 @@ class Enemy extends Character implements GameInfo{
 
     }
 
-    public Enemy(int type){
+    public Enemy(int type, int X, int Y){
+		x = X;
+		y = Y;
         if(type==1){
             initializeAdultFemaleSoul();
         }
@@ -19,22 +21,16 @@ class Enemy extends Character implements GameInfo{
     }
 
     private void initializeAdultFemaleSoul(){
-        name = "AF";
-
-        hurtbox = new Box(13, 38, 40, 22);
-        hurtbox.changeOffset(x, y);
-        vulnerable = true;
-        loadAnimations();
-        setMaxHP(4);
+		Box hit = new Box(-2, -2, -1, -1);		
+		Box hurt = new Box(0, 0, 64, 64);
+		
+		initChar("AF", hurt, hit);
     }
 
     private void initializeAdultMaleSoul(){
-        name = "MF";
-
-        hurtbox = new Box(13, 38, 40, 22);
-        hurtbox.changeOffset(x, y);
-        vulnerable = true;
-        loadAnimations();
-        setMaxHP(4);
+		Box hit = new Box(-2, -2, -1, -1);		
+		Box hurt = new Box(13, 38, 40, 22);
+		
+		initChar("MF", hurt, hit);
     }
 }
