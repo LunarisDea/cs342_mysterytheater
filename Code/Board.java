@@ -19,6 +19,7 @@ public class Board extends JPanel implements Runnable, GameInfo{
 	
 	private Thread animator;
 	private Player player;
+	private Enemy enemy;
 	private Room room;
 	
 	private char moveLeftMapping = 0;
@@ -49,6 +50,8 @@ public class Board extends JPanel implements Runnable, GameInfo{
 		room = Room.getInstance();
 		
 		player = Player.getInstance();
+
+		enemy = new Enemy(1);
 	}
 	
 	@Override
@@ -64,6 +67,7 @@ public class Board extends JPanel implements Runnable, GameInfo{
 		super.paintComponent(g);
 		g.drawImage(room.getBgImage(), 0, 0, this);	
 		drawCharacters(g);
+		drawEnemy(g, enemy);
 		g.drawImage(room.getFgImage(), 0, 0, this);
 		room.addOverlay(g);
 		drawUI(g);
@@ -106,6 +110,11 @@ public class Board extends JPanel implements Runnable, GameInfo{
 	
 	private void drawCharacters(Graphics g){	
 		g.drawImage(player.getCurImage(), player.getX() *Global.size, player.getY() *Global.size, this);
+		Toolkit.getDefaultToolkit().sync();
+	}
+
+	private void drawEnemy(Graphics g, Enemy enemy){
+		g.drawImage(enemy.getCurImage(), player.getX() *Global.size, player.getY() *Global.size, this);
 		Toolkit.getDefaultToolkit().sync();
 	}
 	
