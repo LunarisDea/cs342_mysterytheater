@@ -6,7 +6,7 @@ import java.awt.Graphics;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-
+import java.util.LinkedList;
 import java.util.Scanner;
 
 
@@ -26,6 +26,7 @@ public class Room implements GameInfo{
 	private Box[] collisionBoxes;
 	private Box[] actionBoxes;	
 	private Box[] transitionBoxes;
+	private LinkedList<Enemy>[] enemyList;
 	
 	public static Room getInstance(){
 		if (instance == null){
@@ -62,6 +63,7 @@ public class Room implements GameInfo{
 		collisionBoxes = new Box[16];
 		actionBoxes = new Box[16];
 		transitionBoxes = new Box[4];
+		enemyList= new LinkedList[3];
 		numCollidables = 0;
 		numActables = 0;
 		numTransitions = 0;
@@ -102,6 +104,16 @@ public class Room implements GameInfo{
 				numTransitions++;
 				val = scan.nextInt();
 			}
+
+			val= scan.nextInt();
+			while(val != -1){
+				int hash=(roomNum-100)/10;
+				int type=val;
+				Enemy enemy= new Enemy(type);
+				enemyList[hash]=new LinkedList<Enemy>();
+				enemyList[hash].add(enemy);
+				val=scan.nextInt();
+			}
 			
 		} catch (IOException e){
 			System.out.println("Room data file not found");
@@ -130,6 +142,10 @@ public class Room implements GameInfo{
 	
 	public Box getTransitionBox(int transitionNumber){
 		return transitionBoxes[transitionNumber];
+	}
+
+	public LinkedList<Enemy> getEnemyList(int roomNumber){
+		return enemyList[(roomNumber-100)/10];
 	}
 	
 	private void upRoom(Player player){
