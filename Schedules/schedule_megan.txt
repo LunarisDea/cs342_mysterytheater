@@ -1,3 +1,4 @@
 Schedule and deliverables:
-  - add volume slider for alpha demo 04 April (estimate: NA)
-  - complete pieces for alpha demo 04 April (estimate: NA)
+  - add volume slider for beta release 25 April  (estimate: NA)
+  - add pause feature for beta release 25 April (estimate: NA)
+  - (stretch goal) add graphic to Peter's second room with fighting functionalisty (estimate: NA)
