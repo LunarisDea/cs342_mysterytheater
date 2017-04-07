@@ -1,4 +1,5 @@
 Schedule and deliverables:
+  - revise GameLauncher.java to include color changes to match user key selections (estimate: NA)
   - add volume slider for beta release 25 April  (estimate: NA)
   - add pause feature for beta release 25 April (estimate: NA)
   - (stretch goal) add graphic to Peter's second room with fighting functionalisty (estimate: NA)
