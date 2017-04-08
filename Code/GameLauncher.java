@@ -10,7 +10,6 @@ import java.awt.event.ActionEvent;
 
 import javax.sound.sampled.*;
 import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
@@ -27,36 +26,9 @@ public class GameLauncher extends JFrame implements KeyListener {
 	private static final int RESOLUTION_1280_x_960 = 2;
 	private static final int RESOLUTION_1920_x_1080 = 3;
 	private static final int RESOLUTION_2560_x_1440 = 4;
-	/*
-	 * following are the defaults:
-	private static final int MOVE_LEFT_MAPPING = KeyEvent.VK_LEFT;
-	private static final int MOVE_RIGHT_MAPPING = KeyEvent.VK_RIGHT;
-	private static final int MOVE_UP_MAPPING = KeyEvent.VK_UP;
-	private static final int MOVE_DOWN_MAPPING = KeyEvent.VK_DOWN;
-	private static final int ATTACK_ONE_MAPPING = "U";
-	private static final int ATTACK_TWO_MAPPING = "O";
+	private static Clip clip;
 	
-		if (key == KeyEvent.VK_LEFT) {
-			keyPressedHelper(LEFT, -1, 0);
-		}
-		else if (key == KeyEvent.VK_RIGHT) {	
-			keyPressedHelper(RIGHT, 1, 0);		
-		}
-		else if (key == KeyEvent.VK_UP) {
-			keyPressedHelper(UP, 0, -1);			
-		}
-		else if (key == KeyEvent.VK_DOWN) {	
-			keyPressedHelper(DOWN, 0, 1);
-		}
-
-	*/
 	private int resolution = RESOLUTION_640_x_480;  // set resolution to default of 640 x 480
-//	private JTextField textMoveLeft;
-//	private JTextField textMoveRight;
-//	private JTextField textMoveUp;
-//	private JTextField textMoveDown;
-//	private JTextField textAttackOne;
-//	private JTextField textAttackTwo;
 
 	private JButton btnMoveLeft;
 	private JButton btnMoveRight;
@@ -91,10 +63,7 @@ public class GameLauncher extends JFrame implements KeyListener {
 	 * Create the frame.
 	 */
 	public GameLauncher() {		
-		Sound s = new Sound();
-		s.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		s.setSize(500, 300);
-		s.setVisible(true);
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -176,32 +145,7 @@ public class GameLauncher extends JFrame implements KeyListener {
 		panel_1.add(panel_1b);
 		panel_1b.setLayout(new GridLayout(6, 2, 0, 0));
 		
-		JSlider slider;
-		JLabel label;
-		//setLayout(new GridBagLayout());
-		
-		//GridBagConstraints g = new GridBagConstraints();//dispose();
-		//g.gridx = 1;
-		//g.gridy = 0;
-		
-		slider = new JSlider(JSlider.HORIZONTAL, 0, 100, 20);
-		slider.setMajorTickSpacing(50);
-		slider.setPaintTicks(true);
-		slider.setForeground(Color.RED);
-		//add(slider, g);
-		
-		label = new JLabel("Volume 20 %");
-		//g.gridx = 0;
-		//g.gridy = 1;
-		//add(label, g);
-		
-		slider.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				label.setText("Volume " + slider.getValue() + " %");
-			}
-		});
-		
-		panel1.add();
+		//.add(slider);
 		
 		JLabel lblMoveLeft = new JLabel("Move Left Key");
 		panel_1b.add(lblMoveLeft);
@@ -217,12 +161,10 @@ public class GameLauncher extends JFrame implements KeyListener {
 		try {
 			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream (
 			     new File("BkgrndMusic.wav"));
-			Clip clip = AudioSystem.getClip();
+			clip = AudioSystem.getClip();
 			clip.open(audioInputStream);
-			FloatControl gainControl = 
-				    (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-				gainControl.setValue(-10.0f); // Reduce volume by 10 decibels.
-				clip.start();
+			clip.loop(Clip.LOOP_CONTINUOUSLY);
+
 		}
 	   catch (LineUnavailableException  | IOException | UnsupportedAudioFileException  e1) {
 			// TODO Auto-generated catch block
@@ -429,9 +371,31 @@ public class GameLauncher extends JFrame implements KeyListener {
 			
 		});
 		
-		JPanel panel_2 = new JPanel();
-		contentPane.add(panel_2, BorderLayout.SOUTH);
-		
+		JPanel panel_3 = new JPanel();
+		contentPane.add(panel_3, BorderLayout.SOUTH);
+
+		JSlider slider;
+		JLabel label;
+
+		slider = new JSlider(JSlider.HORIZONTAL, -20, 6, 2);
+		slider.setMajorTickSpacing(2);
+		slider.setPaintTicks(true);
+		slider.setForeground(Color.RED);
+
+		label = new JLabel("Volume");
+		panel_3.add(label);
+		panel_3.add(slider);
+		slider.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				//label.setText("Volume);
+				FloatControl gainControl =
+						(FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+				gainControl.setValue(slider.getValue());
+				clip.start();
+			}
+		});
+
+
 		JButton startButton = new JButton("Start Game");
 		startButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -457,7 +421,7 @@ public class GameLauncher extends JFrame implements KeyListener {
 				}
 			}
 		});
-		panel_2.add(startButton);
+		panel_3.add(startButton);
 }
 
 	@Override
