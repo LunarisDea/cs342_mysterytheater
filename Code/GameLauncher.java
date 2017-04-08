@@ -1,11 +1,5 @@
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JButton;
-import javax.swing.JLabel;
+
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -13,12 +7,14 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import javax.swing.JTextField;
-import javax.sound.sampled.*;
 
-public class GameLauncher extends JFrame implements KeyListener{
+import javax.sound.sampled.*;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.event.*;
+
+public class GameLauncher extends JFrame implements KeyListener {
 
 	/**
 	 * 
@@ -94,7 +90,11 @@ public class GameLauncher extends JFrame implements KeyListener{
 	/**
 	 * Create the frame.
 	 */
-	public GameLauncher() {
+	public GameLauncher() {		
+		Sound s = new Sound();
+		s.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		s.setSize(500, 300);
+		s.setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -117,40 +117,91 @@ public class GameLauncher extends JFrame implements KeyListener{
 		panel_1a.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JButton button_1 = new JButton("640 x 480");
+		button_1.setBackground(Color.GRAY);
 		panel_1a.add(button_1);
 		
 		JButton button_2 = new JButton("1280 x 960");
+		button_2.setBackground(Color.GRAY);
 		panel_1a.add(button_2);
 		
 		JButton button_3 = new JButton("1920 x 1080");
+		button_3.setBackground(Color.GRAY);
 		panel_1a.add(button_3);
 		
 		JButton button_4 = new JButton("2560 x 1440");
 		panel_1a.add(button_4);
-		button_4.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				resolution = RESOLUTION_2560_x_1440;
-			}
-		});
-		button_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				resolution = RESOLUTION_1920_x_1080;
-			}
-		});
-		button_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				resolution = RESOLUTION_1280_x_960;
-			}
-		});
+		button_4.setBackground(Color.GRAY);
+		
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				resolution = RESOLUTION_640_x_480;
+			    button_1.setForeground(Color.GREEN);
+			    button_2.setForeground(Color.BLACK);
+			    button_3.setForeground(Color.BLACK);
+			    button_4.setForeground(Color.BLACK);
+			}
+		});
+		
+		button_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				resolution = RESOLUTION_1280_x_960;
+			    button_1.setForeground(Color.BLACK);
+			    button_2.setForeground(Color.GREEN);
+			    button_3.setForeground(Color.BLACK);
+			    button_4.setForeground(Color.BLACK);
+			}
+		});
+		
+		button_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				resolution = RESOLUTION_1920_x_1080;
+			    button_1.setForeground(Color.BLACK);
+			    button_2.setForeground(Color.BLACK);
+			    button_3.setForeground(Color.GREEN);
+			    button_4.setForeground(Color.BLACK);
+			}
+		});
+		
+		button_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				resolution = RESOLUTION_2560_x_1440;
+			    button_1.setForeground(Color.BLACK);
+			    button_2.setForeground(Color.BLACK);
+			    button_3.setForeground(Color.BLACK);
+			    button_4.setForeground(Color.GREEN);
 			}
 		});
 		
 		JPanel panel_1b = new JPanel();
 		panel_1.add(panel_1b);
 		panel_1b.setLayout(new GridLayout(6, 2, 0, 0));
+		
+		JSlider slider;
+		JLabel label;
+		//setLayout(new GridBagLayout());
+		
+		//GridBagConstraints g = new GridBagConstraints();//dispose();
+		//g.gridx = 1;
+		//g.gridy = 0;
+		
+		slider = new JSlider(JSlider.HORIZONTAL, 0, 100, 20);
+		slider.setMajorTickSpacing(50);
+		slider.setPaintTicks(true);
+		slider.setForeground(Color.RED);
+		//add(slider, g);
+		
+		label = new JLabel("Volume 20 %");
+		//g.gridx = 0;
+		//g.gridy = 1;
+		//add(label, g);
+		
+		slider.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				label.setText("Volume " + slider.getValue() + " %");
+			}
+		});
+		
+		panel1.add();
 		
 		JLabel lblMoveLeft = new JLabel("Move Left Key");
 		panel_1b.add(lblMoveLeft);
@@ -162,6 +213,7 @@ public class GameLauncher extends JFrame implements KeyListener{
 		JLabel lblMoveRight = new JLabel("Move Right Key");
 		panel_1b.add(lblMoveRight);
 		
+		//add repeat function for music
 		try {
 			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream (
 			     new File("BkgrndMusic.wav"));
