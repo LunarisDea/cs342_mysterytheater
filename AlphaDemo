@@ -1,53 +1,68 @@
-Alpha Demo (April 4):
+April 16th, Sunday
+-Post-alpha/Pre-beta
 
-Test demo run on Sunday April 2nd at 10pm.
+April 23rd, Sunday
+-Beta test
 
-Must have:
--2 Enemy Types (at least 1 of which will have basic AI and attack).
--3 rooms.
--Hitboxes and hurtboxes. [done]
--An environmental object with collision (statue/pillar/wall/etc). [done]
--Background music.
--Basic sound effects.
--Game Launcher keybinding. [done]
--Game Launcher volume slider.
+April 25th, Tuesday
+-Beta due
 
-Stretch goal:
--Defeat screen.
--Boss enemy.
--Basic launcher design.
--More enemies, rooms, songs, sound effects.
+April 27th, Thursday
+-Public demo (ie. final product)
 
 
-Individual components:
-Briana:
-Must have:
--Enemy factory, with 2 different enemy types (This needs to be done by Friday at the latest) [done]
--Character attack [done:Peter]
--Character and enemy hitboxes (should have debug draw blue rectangle of hitbox area to make sure correct size/collision detection) [done:Peter]
--Character and enemy attack hurtboxes (^above but red) [done:Peter]
--Basic sound effects
-Stretch goal:
--More enemy types
--More sound effects
+Post-alpha / Pre-beta (April 16th):
+ 
+To get prepared for the beta assigment, we should
+focus on finishing and polishing what we had for the 
+alpha demo based on the feedback given to us in class.
+I believe this will ideally keep us on pace to have a
+final product. At this point, fixing and improving
+current things is priority over adding new features.
 
 Peter:
-Must have:
--Character and enemy pixelArt + animation [character: done; enemy: in progress]
--Room design/art [2 rooms done, 3rd in progress]
--Room import (ie, enemy spawns + environmental collision) [done]
--Room collision detection [done]
--Basic enemy AI [waiting for enemy code]
-Stretch Goals:
--Launcher art
--Defeat screen
--Boss enemy
+- Intro cutscene and/or dialogue
+- Attack animation
+- Enemy animation
+- Finish 3rd room
+- Launcher + pause menu + defeat art/design
+
+Briana:
+- Sound effects
+- 2 enemy types and multiple instances
+- basic enemy AI
+- Visual feedback when near actable objects (ie, when collided with pink hitboxes)
 
 Megan:
-Must have:
--A background song
--Key remapping [done]
--Launcher volume slider
--Pause feature
-Stretch goals:
--More background music
+- Pause button (bindable in game launcher, and hard-coded for esc key)
+- Volume slider [done]
+- Launcher buttons change color while waiting for keypress
+- Launcher read in current settings if file exists
+
+
+
+Beta Test (April 23rd):
+
+This Will be updated. The priority will be testing
+and working with feedback, with final features added
+if time permits.
+
+Peter:
+- 4th room with 'boss', win cutscene
+
+Briana:
+- Complete sound effects (walk, locked door, attack, enemy defeat, player damage...)
+
+Megan:
+- Pause menu and Game Launcher final design
+- Music transitions (peaceful -> sleeping -> scary + win/defeat)
+
+
+
+Beta Due (April 25th)
+- Fixes and optimization
+
+
+
+Public Demo (April 27th)
+- Record video and plan presentation
