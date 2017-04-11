@@ -27,12 +27,6 @@ Peter:
 - Finish 3rd room
 - Launcher + pause menu + defeat art/design
 
-Briana:
-- Sound effects
-- 2 enemy types and multiple instances
-- basic enemy AI
-- Visual feedback when near actable objects (ie, when collided with pink hitboxes)
-
 Megan:
 - Pause button (bindable in game launcher, and hard-coded for esc key)
 - Volume slider [done]
@@ -49,13 +43,14 @@ if time permits.
 
 Peter:
 - 4th room with 'boss', win cutscene
-
-Briana:
-- Complete sound effects (walk, locked door, attack, enemy defeat, player damage...)
+- Enemy AI
+- Visual feedback when near actable objects
+- Multiple enemies
 
 Megan:
 - Pause menu and Game Launcher final design
 - Music transitions (peaceful -> sleeping -> scary + win/defeat)
+- Sound effects
 
 
 
