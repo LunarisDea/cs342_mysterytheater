@@ -10,9 +10,12 @@ public class Character implements GameInfo{
 	protected int curState;
 	protected int curDirection;
 	protected boolean vulnerable;
+	protected boolean movable;
 	protected int invulnFrames;
 	
 	protected int attackFrames;
+	protected int attackDirection;
+	protected boolean attackHit;
 	protected Box hitbox;
 	
 	private int frameCounter;
@@ -80,33 +83,29 @@ public class Character implements GameInfo{
 		}
 	}
 	
-	public Image getCurImage(){
-		if (isAttacking()){
-			attackFrames++;
-			if (attackFrames <= 30){ //hitbox is out
-				attackHelper();
-			}
-			else if (attackFrames == 31){ //attack has ended
-				hitbox.changeOffset(10000, 10000);
-			}
-			else if (attackFrames > 60){ //can attack again
-				attackFrames = -1;
-			}
+	public Image getAttackImage(){
+		attackFrames++;
+		if (attackFrames <= 30){ //hitbox is out
+			if (attackHelper()) //if attack hit
+				attackHit = true;
+			if (attackHit)
+				return attackAnimation[attackDirection][3];
+			return attackAnimation[attackDirection][0];
 		}
-		if (special != -1){
-			return specialImages[special];
-		}	
-		if (invulnFrames != -1){
-			invulnFrames++;
-			if (invulnFrames >= 50){
-				vulnerable = true;
-				invulnFrames = -1;
-			}
-			return damageAnimation[curDirection];
-		}		
-		if (curState == 0){
+		else if (attackFrames == 31){ //attack has ended
+			movable = true;
+			hitbox.changeOffset(10000, 10000);
+			attackHit = false;
+		}
+		else if (attackFrames > 60){ //can attack again
+			attackFrames = -1;
+		}
+		return getWalkImage();
+	}
+	
+	public Image getWalkImage(){
+		if (curState == 0)
 			return idleAnimation[curDirection];
-		}
 		int curFrame = 0;
 		if (frameCounter % 60 < 15)
 			curFrame = 0;
@@ -121,7 +120,26 @@ public class Character implements GameInfo{
 		if (frameCounter == 600) //max 10 seconds per animation
 			frameCounter = 0;
 		
-		return walkAnimation[curDirection][curFrame];
+		return walkAnimation[curDirection][curFrame];		
+	}
+	
+	public Image getCurImage(){
+		if (isAttacking()){
+			return getAttackImage();
+		}
+		else if (special != -1){
+			return specialImages[special];
+		}	
+		else if (invulnFrames != -1){
+			invulnFrames++;
+			if (invulnFrames >= 50){
+				vulnerable = true;
+				invulnFrames = -1;
+			}
+			return damageAnimation[curDirection];
+		}
+		else
+			return getWalkImage();
 	}
 	
 	public Box getHurtbox(){
@@ -189,28 +207,31 @@ public class Character implements GameInfo{
 		invulnFrames = 0;
 	}
 	
-	protected void attackHelper(){
-		if (curDirection == UP){
-			hitbox.changeOffset(x+17, y);
+	protected boolean attackHelper(){ //returns true if hit else false
+		if (attackFrames == 1){
+			if (curDirection == UP){
+				hitbox.changeOffset(x+17, y);
+			}
+			else if (curDirection == RIGHT){
+				hitbox.changeOffset(x+50, y+30);
+			}
+			else if (curDirection == DOWN){
+				hitbox.changeOffset(x+16, y+60);
+			}
+			else { //LEFT
+				hitbox.changeOffset(x-18, y+30);
+			}
 		}
-		else if (curDirection == RIGHT){
-			hitbox.changeOffset(x+50, y+30);
-		}
-		else if (curDirection == DOWN){
-			hitbox.changeOffset(x+16, y+60);
-		}
-		else { //LEFT
-			hitbox.changeOffset(x-18, y+30);
-		}
-		Room.getInstance().attackCollisionDetector(hitbox);			
+		return Room.getInstance().attackCollisionDetector(hitbox);			
 	}
 	
 	protected void attack(){
 		if (attackFrames != -1)
 			return;
 		
+		movable = false;
+		attackDirection = curDirection;
 		attackFrames = 0;
-		attackHelper();
 	}
 		
 	public boolean isAttacking(){
@@ -226,6 +247,8 @@ public class Character implements GameInfo{
 	}
 	
 	public void changeLocation(int xChange, int yChange){
+		if (!movable)
+			return;
 		prevX = x;
 		prevY = y;
 		x += xChange;
