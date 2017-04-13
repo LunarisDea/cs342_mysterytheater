@@ -31,6 +31,8 @@ public class Player extends Character implements GameInfo{
 	}
 	
 	protected Player(){
+		movable = true;
+		attackHit = false;
 		Box hit = new Box(0, 0, 32, 32);		
 		Box hurt = new Box(13, 30, 40, 30);
 		
