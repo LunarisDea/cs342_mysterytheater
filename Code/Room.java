@@ -264,12 +264,14 @@ public class Room implements GameInfo{
 		}
 	}
 	
-	public void attackCollisionDetector(Box attackBox){
+	public boolean attackCollisionDetector(Box attackBox){
 		for (int i=0; i < numEnemies; i++){
 			if (attackBox.isOverlapped(enemies[i].getHurtbox())){
-				enemies[i].takeDamage(1);		
+				enemies[i].takeDamage(1);
+				return true;
 			}
-		}		
+		}
+		return false;
 	}
 	
 	public void performAction(int actionNum){
