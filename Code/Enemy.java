@@ -10,6 +10,8 @@ class Enemy extends Character implements GameInfo{
     }
 
     public Enemy(int type, int X, int Y){
+		movable = true;
+		attackHit = false;		
 		x = X;
 		y = Y;
         if(type==1){
