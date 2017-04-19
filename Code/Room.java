@@ -1,4 +1,10 @@
 import java.awt.Image;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -12,6 +18,8 @@ import java.util.Scanner;
 
 public class Room implements GameInfo{
 	private static Room instance = null;
+	private static Clip clip;
+	private static Clip clip2;
 	private int roomNum;
 	private int framesSinceRoomEnter;
 	private Image bgImage;
@@ -51,7 +59,23 @@ public class Room implements GameInfo{
 		ImageIcon fg = new ImageIcon("Images/bg/" + roomNum + "foreground.png");
 		bgImage = bg.getImage();
 		fgImage = fg.getImage();
+		//System.out.println("Play music for room: " + roomNum);
+		if (roomNum == 110){
 			
+			try {
+				if (Room.clip2 != null)
+					Room.clip2.stop();
+				AudioInputStream audioInputStream = AudioSystem.getAudioInputStream (
+				     new File("Nightmare.wav"));
+				clip = AudioSystem.getClip();
+				clip.open(audioInputStream);
+				clip.loop(Clip.LOOP_CONTINUOUSLY);
+			}
+		   catch (LineUnavailableException  | IOException | UnsupportedAudioFileException  e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
 		if (Global.size != 1){
 			bgImage = bgImage.getScaledInstance(INTERNAL_WIDTH * Global.size, 
 												INTERNAL_HEIGHT * Global.size, Image.SCALE_DEFAULT);
@@ -278,6 +302,19 @@ public class Room implements GameInfo{
 		if (roomNum == 100){
 			if (actionNum == 0){ //light switch
 				overlay = 1;
+				
+				try {
+					AudioInputStream audioInputStream = AudioSystem.getAudioInputStream (
+					     new File("Sleeping.wav"));
+					clip2 = AudioSystem.getClip();
+					clip2.open(audioInputStream);
+					clip2.loop(Clip.LOOP_CONTINUOUSLY);
+
+				}
+			   catch (LineUnavailableException  | IOException | UnsupportedAudioFileException  e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 			if (actionNum == 1){ //enterbed
 				//move player into bed
