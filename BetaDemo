@@ -28,9 +28,9 @@ Peter:
 - Launcher + pause menu + defeat art/design
 
 Megan:
-- Pause button (bindable in game launcher, and hard-coded for esc key)
+- Pause button (bindable in game launcher, and hard-coded for esc key) [updated]
 - Volume slider [done]
-- Launcher buttons change color while waiting for keypress
+- Launcher buttons change color while waiting for keypress [updated]
 - Launcher read in current settings if file exists
 
 
@@ -49,7 +49,7 @@ Peter:
 
 Megan:
 - Pause menu and Game Launcher final design
-- Music transitions (peaceful -> sleeping -> scary + win/defeat)
+- Music transitions (peaceful -> sleeping -> scary + win/defeat) [updated]
 - Sound effects
 
 
