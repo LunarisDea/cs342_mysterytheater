@@ -3,6 +3,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import javax.swing.JOptionPane;
+
 //import GameInfo.Global;
 
 public class Player extends Character implements GameInfo{
@@ -99,6 +101,7 @@ public class Player extends Character implements GameInfo{
 		if (actable == false)
 			return;
 		int key = e.getKeyCode();
+		System.out.println("Number" + key);
 		
 		if (key == moveLeftMapping) {
 			keyPressedHelper(3, -1, 0);
@@ -119,6 +122,21 @@ public class Player extends Character implements GameInfo{
 			attack();
 			keyDown[4] = true;
 		}
+		else if (key == 27) {
+			//System.out.println("Escape");
+			//JOptionPane.showMessageDialog(null, "Move left mapping: " + (char)moveLeftMapping);
+			String Message = "Mystery Theater\n" + 
+			"--------------------\n" +
+					"Hit return to resume play\n" +
+			"--------------------\n" +
+					"Move left mapping: " + (char)moveLeftMapping + "\n" +
+					"Move right mapping: " + (char)moveRightMapping + "\n" +
+					"Move up mapping: " + (char)moveUpMapping + "\n" +
+					"Move down mapping: " + (char)moveDownMapping;
+			JOptionPane.showMessageDialog(null, Message);
+
+		}
+		//else if (key == )
 	}
 
 	public void readFile() {
