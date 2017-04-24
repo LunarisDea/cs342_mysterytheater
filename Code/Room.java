@@ -279,6 +279,20 @@ public class Room implements GameInfo{
 		}
 	}
 	
+	public void envCollisionDetector(Enemy enemy){
+		Box enemyBox = enemy.getHurtbox();
+		for (int i=0; i < numCollidables; i++){
+			if (enemyBox.isOverlapped(collisionBoxes[i]))
+				enemy.moveToPrev();
+		}
+	}
+	
+	public void playerCollisionDetector(Enemy enemy){
+		Player player = Player.getInstance();
+		if (player.getHurtbox().isOverlapped(enemy.getHurtbox()))
+			enemy.moveToPrev();
+	}
+	
 	public void enemyCollisionDetector(Player player){
 		Box playerBox = player.getHurtbox();
 		for (int i=0; i < numEnemies; i++){
@@ -344,6 +358,12 @@ public class Room implements GameInfo{
 		}
 		else if (overlay == 2){ //flashlight mode
 			return;
+		}
+	}
+	
+	public void moveEnemies(){
+		for (int i=0; i<numEnemies; i++){
+			enemies[i].aiAction();
 		}
 	}
 	
