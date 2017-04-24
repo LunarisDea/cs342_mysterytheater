@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 //import GameInfo.Global;
@@ -101,7 +102,7 @@ public class Player extends Character implements GameInfo{
 		if (actable == false)
 			return;
 		int key = e.getKeyCode();
-		//System.out.println("Number" + key);
+		System.out.println("Number" + key);
 		
 		if (key == moveLeftMapping) {
 			keyPressedHelper(3, -1, 0);
@@ -125,16 +126,20 @@ public class Player extends Character implements GameInfo{
 		else if (key == 27) {
 			//System.out.println("Escape");
 			//JOptionPane.showMessageDialog(null, "Move left mapping: " + (char)moveLeftMapping);
-			String Message = "Mystery Theater\n" + 
-			"--------------------\n" +
-					"Hit return to resume play\n" +
-			"--------------------\n" +
-					"Move left mapping: " + (char)moveLeftMapping + "\n" +
-					"Move right mapping: " + (char)moveRightMapping + "\n" +
-					"Move up mapping: " + (char)moveUpMapping + "\n" +
-					"Move down mapping: " + (char)moveDownMapping;
-			JOptionPane.showMessageDialog(null, Message);
-
+			String Message = "<html><center>Mystery Theater<BR>" + 
+			"--------------------<BR>" +
+					"Hit return to resume play<BR>" +
+			"--------------------<BR>" +
+					"Move left mapping: " + (char)moveLeftMapping + "<BR>" +
+					"Move right mapping: " + (char)moveRightMapping + "<BR>" +
+					"Move up mapping: " + (char)moveUpMapping + "<BR>" +
+					"Move down mapping: " + (char)moveDownMapping + "<BR>" +
+					"Move attack mapping: " + (char)attackMapping + "<BR>" +
+					"Move action mapping: " + (char)actionButtonMapping + "<BR>" +
+					"</center></html>";
+			//JOptionPane.showMessageDialog(null, Message);
+			JFrame ex = new PauseMenu(Message);
+			ex.setVisible(true);
 		}
 		//else if (key == )
 	}
