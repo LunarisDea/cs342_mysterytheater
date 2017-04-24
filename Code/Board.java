@@ -30,8 +30,8 @@ public class Board extends JPanel implements Runnable, GameInfo{
 	}
 	
 	private void initBoard() {	
-		ImageIcon ii = new ImageIcon("UI/hp.png");
-		Image hpImage = ii.getImage();
+		ImageIcon ii = new ImageIcon("Images/UI/hp.png");
+		hpImage = ii.getImage();
 		
 		setBackground(Color.BLACK);
 		bWidth = bWidth * Global.size; 
@@ -135,6 +135,7 @@ public class Board extends JPanel implements Runnable, GameInfo{
 		room.envCollisionDetector(player);
 		room.borderCollisionDetector(player);
 		room.enemyCollisionDetector(player);
+		room.moveEnemies();
 	}
 	
 	@Override
