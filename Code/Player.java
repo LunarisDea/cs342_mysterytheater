@@ -101,7 +101,7 @@ public class Player extends Character implements GameInfo{
 		if (actable == false)
 			return;
 		int key = e.getKeyCode();
-		System.out.println("Number" + key);
+		//System.out.println("Number" + key);
 		
 		if (key == moveLeftMapping) {
 			keyPressedHelper(3, -1, 0);
