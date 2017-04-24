@@ -1,8 +1,6 @@
-Apr 3, Monday
-  - Finish 3rd Room
-  - Attack animation
-  - Temp enemy images + spawn + possibly AI
-  - Fix any issues/get stable version
-  
-Apr 4, Tuesday
-  - Alpha Demo
+Monday (april 24):
+ - Fix enemy death
+ - Create weak enemy
+ - Defeat screen
+ - Add enemy attack animation
+ - Add small intro cutscene
