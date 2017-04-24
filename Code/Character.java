@@ -12,6 +12,7 @@ public class Character implements GameInfo{
 	protected boolean vulnerable;
 	protected boolean movable;
 	protected int invulnFrames;
+	protected boolean dead;
 	
 	protected int attackFrames;
 	protected int attackDirection;
@@ -19,11 +20,11 @@ public class Character implements GameInfo{
 	protected Box hitbox;
 	
 	private int frameCounter;
-	private Image[] idleAnimation = new Image[4];
-	private Image[] damageAnimation = new Image[4];
-	private Image[][] walkAnimation = new Image[4][4];
-	private Image[][] attackAnimation = new Image[4][4];
-	private Image[] specialImages = new Image[1];
+	protected Image[] idleAnimation = new Image[4];
+	protected Image[] damageAnimation = new Image[4];
+	protected Image[][] walkAnimation = new Image[4][4];
+	protected Image[][] attackAnimation = new Image[4][4];
+	protected Image[] specialImages = new Image[1];
 	protected int special = -1;
 	
 	private int width = 64;
@@ -52,7 +53,8 @@ public class Character implements GameInfo{
 		curDirection = DOWN;
 		name = fName;
 		loadAnimations();
-		vulnerable = true;		
+		vulnerable = true;
+		dead = false;
 	}
 	
 	public void loadAnimations(){
@@ -124,20 +126,21 @@ public class Character implements GameInfo{
 	}
 	
 	public Image getCurImage(){
+		if (invulnFrames != -1){
+			invulnFrames++;
+			if (invulnFrames >= 30){
+				vulnerable = true;
+				invulnFrames = -1;
+			}
+			return damageAnimation[curDirection];
+		}
+		vulnerable = true;
 		if (isAttacking()){
 			return getAttackImage();
 		}
 		else if (special != -1){
 			return specialImages[special];
 		}	
-		else if (invulnFrames != -1){
-			invulnFrames++;
-			if (invulnFrames >= 50){
-				vulnerable = true;
-				invulnFrames = -1;
-			}
-			return damageAnimation[curDirection];
-		}
 		else
 			return getWalkImage();
 	}
@@ -199,12 +202,19 @@ public class Character implements GameInfo{
 	public void takeDamage(int damage){
 		if (vulnerable == false)
 			return;
-		curHP = curHP - damage;
+		attackFrames = -1;	
+		curHP = curHP - damage;	
 		if (curHP <= 0){
-			changeLocation(5000, 5000); //temp
+			died();
 		}
 		vulnerable = false;
 		invulnFrames = 0;
+	}
+	
+	private void died(){
+		hurtbox = new Box(0, 0, 0, 0);
+		dead = true;
+		changeLocation(5000, 5000); //temp
 	}
 	
 	protected boolean attackHelper(){ //returns true if hit else false
