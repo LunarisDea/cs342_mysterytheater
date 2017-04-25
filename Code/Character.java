@@ -1,6 +1,9 @@
 import java.awt.Image;
 import javax.swing.ImageIcon;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 public class Character implements GameInfo{	
 	protected int x; private int prevX;
 	protected int y; private int prevY;
@@ -13,6 +16,7 @@ public class Character implements GameInfo{
 	protected boolean movable;
 	protected int invulnFrames;
 	protected boolean dead;
+	protected boolean actable;
 	
 	protected int attackFrames;
 	protected int attackDirection;
@@ -24,11 +28,11 @@ public class Character implements GameInfo{
 	protected Image[] damageAnimation = new Image[4];
 	protected Image[][] walkAnimation = new Image[4][4];
 	protected Image[][] attackAnimation = new Image[4][4];
-	protected Image[] specialImages = new Image[1];
+	protected Image[] specialImages = new Image[4];
 	protected int special = -1;
 	
-	private int width = 64;
-	private int height = 64;
+	protected int width = 64;
+	protected int height = 64;
 	private Image charImage;
 	String name;
 	
@@ -55,13 +59,17 @@ public class Character implements GameInfo{
 		loadAnimations();
 		vulnerable = true;
 		dead = false;
-	}
+		actable = true;
+	}	
 	
 	public void loadAnimations(){
 		String fName = "Images/"+name+"/";
-		ImageIcon ii = new ImageIcon(fName + "s0.png");
-		specialImages[0] = ii.getImage();
-		specialImages[0] = specialImages[0].getScaledInstance(width * Global.size, height * Global.size, Image.SCALE_DEFAULT);
+		ImageIcon ii;
+		for (int i=0; i<3; i++){
+			ii = new ImageIcon(fName + "s" + i + ".png");
+			specialImages[i] = ii.getImage();
+			specialImages[i] = specialImages[i].getScaledInstance(width * Global.size, height * Global.size, Image.SCALE_DEFAULT);
+		}
 		
 		for (int j = 0; j<4; j++){
 			ii = new ImageIcon(fName + j + ".png");
@@ -126,6 +134,9 @@ public class Character implements GameInfo{
 	}
 	
 	public Image getCurImage(){
+		if (dead){
+			return null;
+		}
 		if (invulnFrames != -1){
 			invulnFrames++;
 			if (invulnFrames >= 30){
@@ -177,6 +188,14 @@ public class Character implements GameInfo{
 		return height;
 	}
 	
+	public void setUnactable(){
+		actable = false;
+	}
+	
+	public void setActable(){
+		actable = true;
+	}	
+	
 	public boolean isVulnerable(){
 		return vulnerable;
 	}
@@ -200,21 +219,49 @@ public class Character implements GameInfo{
 	}
 	
 	public void takeDamage(int damage){
+		//vulnerable = false; //DELETE
 		if (vulnerable == false)
 			return;
-		attackFrames = -1;	
+		if (attackFrames != -1){
+			movable = true;
+			hitbox.changeOffset(10000, 10000);
+			attackHit = false;
+			attackFrames = -1;
+		}
 		curHP = curHP - damage;	
 		if (curHP <= 0){
 			died();
+			if (isPlayer()){
+								String Message = "<html><center>Mystery Theater<BR>" + 
+				"--------------------<BR>" +
+						"You have been defeated!<BR>" +
+				"--------------------<BR>" +
+						"" + "<BR>" +
+						"" +"<BR>" +
+						"Better luck next time!" + "<BR>" +
+						"</center></html>";
+				//JOptionPane.showMessageDialog(null, Message);
+				JFrame ex = new PauseMenu(Message, false, true);
+				ex.setVisible(true);
+			}
+				
 		}
 		vulnerable = false;
 		invulnFrames = 0;
 	}
 	
+	public boolean isPlayer(){
+		return false;
+	}
+	
 	private void died(){
-		hurtbox = new Box(0, 0, 0, 0);
+		hurtbox.makeInactive();
+		hitbox.makeInactive();
 		dead = true;
-		changeLocation(5000, 5000); //temp
+	}
+	
+	public boolean isDead(){
+		return dead;
 	}
 	
 	protected boolean attackHelper(){ //returns true if hit else false

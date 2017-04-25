@@ -14,10 +14,11 @@ public class Player extends Character implements GameInfo{
 	private int xDir = 0;
 	private int yDir = 0;
 	private boolean keyDown[];
+	private int weapon;
+	private boolean pause = false;
 	
-	private boolean actable = false;
 	private int cutsceneNumber = 0;
-	private int cutsceneFrame = 0;
+	private int cutsceneFrame = -1;
 	
 	private int moveLeftMapping;
 	private int moveRightMapping;
@@ -36,6 +37,7 @@ public class Player extends Character implements GameInfo{
 	protected Player(){
 		movable = true;
 		attackHit = false;
+		weapon = 0;
 		Box hit = new Box(0, 0, 32, 32);		
 		Box hurt = new Box(13, 30, 40, 30);
 		
@@ -49,15 +51,6 @@ public class Player extends Character implements GameInfo{
 		setLocation(293, 55);
 		
 		readFile();//this sets vals for mappings declared at approx 14-19
-		actable = true;
-	}
-	
-	public void setUnactable(){
-		actable = false;
-	}
-	
-	public void setActable(){
-		actable = true;
 	}
 	
 	public void move(){
@@ -98,11 +91,19 @@ public class Player extends Character implements GameInfo{
 		}		
 	}
 	
+	public void setWeapon(int weaponNum){
+		weapon = weaponNum;
+	}
+	
+	public int curWeapon(){
+		return weapon;
+	}
+	
 	public void keyPressed(KeyEvent e) {//e is an addy to an instance of the object
-		if (actable == false)
+		if (actable == false || pause == true)
 			return;
 		int key = e.getKeyCode();
-		System.out.println("Number" + key);
+		//System.out.println("Number" + key);
 		
 		if (key == moveLeftMapping) {
 			keyPressedHelper(3, -1, 0);
@@ -120,25 +121,27 @@ public class Player extends Character implements GameInfo{
 			performAction();
 		}
 		else if (keyDown[4] == false && key == attackMapping){
-			attack();
+			if (weapon != 0)
+				attack();
 			keyDown[4] = true;
 		}
 		else if (key == 27) {
+			pause();
 			//System.out.println("Escape");
 			//JOptionPane.showMessageDialog(null, "Move left mapping: " + (char)moveLeftMapping);
 			String Message = "<html><center>Mystery Theater<BR>" + 
 			"--------------------<BR>" +
 					"Hit return to resume play<BR>" +
 			"--------------------<BR>" +
-					"Move left mapping: " + (char)moveLeftMapping + "<BR>" +
-					"Move right mapping: " + (char)moveRightMapping + "<BR>" +
-					"Move up mapping: " + (char)moveUpMapping + "<BR>" +
-					"Move down mapping: " + (char)moveDownMapping + "<BR>" +
-					"Move attack mapping: " + (char)attackMapping + "<BR>" +
-					"Move action mapping: " + (char)actionButtonMapping + "<BR>" +
+					"Move left: " + (char)moveLeftMapping + "<BR>" +
+					"Move right: " + (char)moveRightMapping + "<BR>" +
+					"Move up: " + (char)moveUpMapping + "<BR>" +
+					"Move down: " + (char)moveDownMapping + "<BR>" +
+					"Move attack: " + (char)attackMapping + "<BR>" +
+					"Move action: " + (char)actionButtonMapping + "<BR>" +
 					"</center></html>";
 			//JOptionPane.showMessageDialog(null, Message);
-			JFrame ex = new PauseMenu(Message);
+			JFrame ex = new PauseMenu(Message, true, true);
 			ex.setVisible(true);
 		}
 		//else if (key == )
@@ -231,12 +234,30 @@ public class Player extends Character implements GameInfo{
 		cutsceneNumber = number;
 	}
 	
+	private void endCutscene(){
+		special = -1;
+		setActable();
+		cutsceneNumber = 0;
+		cutsceneFrame = -1;
+	}
+	
 	public boolean checkCutscene(){
 		if (cutsceneNumber == 0)
 			return false;
 		
 		cutsceneFrame++;
-		if (cutsceneNumber == 1){ //enter bed
+		if (cutsceneNumber == 2){ //yawn
+			if (cutsceneFrame <= 60)
+				special = -1;
+			else if (cutsceneFrame <= 120)
+				special = 1;
+			else if (cutsceneFrame <= 180)
+				special = 2;
+			else{
+				endCutscene();
+			}
+		}
+		else if (cutsceneNumber == 1){ //enter bed
 			if (y > 65){
 				changeLocation(0, -1);
 			}
@@ -251,12 +272,54 @@ public class Player extends Character implements GameInfo{
 				curDirection = DOWN;
 			}
 			else{
-				special = -1;
-				setActable();
+				endCutscene();
 				Room.getInstance().changeOverlay(0);
-				cutsceneNumber = 0;
+			}
+		}
+		else if (cutsceneNumber == 100){ //victory
+		special = -1;
+			if (cutsceneFrame == 120){
+				Room.getInstance().setRoom(0, 475, 65);;
+				curDirection = DOWN;
+				special = 0;
+			}
+			else if (cutsceneFrame <= 240){
+				special = 0;
+			}
+			else if (cutsceneFrame == 241){
+				pause();
+				//victory
+				String Message = "<html><center>Mystery Theater<BR>" + 
+				"--------------------<BR>" +
+						"Victory!!<BR>" +
+				"--------------------<BR>" +
+						"" + "<BR>" +
+						"" +"<BR>" +
+						"Congratulations on beating our game!" + "<BR>" +
+						"We hope you enjoyed it!" + "<BR>" +
+						"</center></html>";
+				//JOptionPane.showMessageDialog(null, Message);
+				JFrame ex = new PauseMenu(Message, false, true);
+				ex.setVisible(true);
 			}
 		}
 		return true;
+	}
+	
+	@Override
+	public boolean isPlayer(){
+		return true;
+	}
+	
+	public void pause(){
+		releaseKeys();
+		pause = true;
+	}
+	
+	public void unPause(){
+		pause = false;
+	}
+	public boolean isPaused(){
+		return pause;
 	}
 }

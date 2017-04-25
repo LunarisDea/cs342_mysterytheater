@@ -2,66 +2,138 @@ import java.awt.event.KeyEvent;//can do multiple inheritance in C++ but not in J
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.Math;
 
 import java.awt.Image;
 
 class Enemy extends Character implements GameInfo{
+	private int enemyType;
+	private int aiFrames;
 	
 	public Enemy(){
 
 	}
 
 	public Enemy(int type, int X, int Y){
+		aiFrames = -1;
+		enemyType = type;
 		movable = true;
 		attackHit = false;		
 		x = X;
 		y = Y;
-		if(type==1){
+		if(enemyType==1){
 			initializeAdultFemaleSoul();
 		}
-		if(type==2){
+		if(enemyType==2){
 			initializeAdultMaleSoul();
+		}
+		else if (enemyType == 20){
+			initializeMirror();
 		}
 	}
 
 	private void initializeAdultFemaleSoul(){
-		Box hit = new Box(0, 0, 64, 64);		
-		Box hurt = new Box(0, 0, 64, 64);
-		
+		Box hit = new Box(10, 0, 108, 124);		
+		Box hurt = new Box(10, 0, 108, 124);
+	
+		width = 124;
+		height = 124;	
 		initChar("AF", hurt, hit);
+		curHP = 4;
+
 	}
 
 	private void initializeAdultMaleSoul(){
-		Box hit = new Box(20, 20, 32, 32);		
+		Box hit = new Box(13, 38, 40, 22);		
 		Box hurt = new Box(13, 38, 40, 22);
 		
 		initChar("MF", hurt, hit);
 	}
 	
+	private void initializeMirror(){
+		Box hit = new Box(0, 0, 0, 0);
+		Box hurt = new Box(0, 0, 0, 0);
+		
+		initChar("Mirror", hurt, hit);
+	}
+	
 	public void aiAction(){
+		if (enemyType == 1)
+			adultFemaleAI();
+		else if (enemyType == 2)
+			adultMaleAI();
+		else if (enemyType == 20)
+			mirrorAI();
+	}
+	
+	private void adultFemaleAI(){
+		if (movable == false)
+			return;
 		Player player = Player.getInstance();
 		Room room = Room.getInstance();
-		if (player.getX() > x + 80){
-			curDirection = RIGHT;
-			changeLocation(1, 0);
+		
+		int px = player.getX();
+		int py = player.getY();	
+		int hor = x - px + 32;
+		int vert = y - py + 32;
+		int size = 50;
+		
+		if (Math.abs(hor) > Math.abs(vert)){
+			if (hor < 0){
+				curDirection = RIGHT;
+				if (px > x + size + 124)
+					changeLocation(1, 0);
+				else
+					attack();
+			}
+			else{
+				curDirection = LEFT;
+				if (px + 32 < x - size)
+					changeLocation(-1, 0);
+				else
+					attack();
+			}
 		}
-		else if (player.getX() < x - 80){
-			curDirection = LEFT;
-			changeLocation(-1, 0);
+		else{
+			if (vert < 0){
+				curDirection = DOWN;
+				if (py > y + size + 124)
+					changeLocation(0, 1);
+				else
+					attack();
+			}
+			else{
+				curDirection = UP;
+				if (py + 64 < y - size)
+					changeLocation(0, -1);
+				else
+					attack();
+			}
 		}
-		else if (player.getY() > y + 50){
-			curDirection = DOWN;
-			changeLocation(0, 1);
-		}
-		else if (player.getY() < y - 80){
-			curDirection = UP;
-			changeLocation(0, -1);
-		}
-		else {
+		
+		/*if (Math.abs(vert) < 40 || Math.abs(hor) < 40) {
 			attack();
-		}
+		}*/
+		
 		room.envCollisionDetector(this);
-		room.playerCollisionDetector(this);
+		room.playerCollisionDetector(this);		
+	}
+	
+	private void adultMaleAI(){
+		
+	}
+	
+	private void mirrorAI(){
+		curState = 0;
+		aiFrames++;
+		if (aiFrames < 30)
+			curDirection = UP;
+		else if (aiFrames < 60)
+			curDirection = RIGHT;
+		else if (aiFrames < 90)
+			curDirection = DOWN;
+		else
+			aiFrames = -1;
 	}
 	
 	private boolean enemyAttackCollisionDetector(){
@@ -73,19 +145,20 @@ class Enemy extends Character implements GameInfo{
 		return false;
 	}
 	
+	
 	@Override
 	protected boolean attackHelper(){ //returns true if hit else false
 		if (curDirection == UP){
-			hitbox.changeOffset(x, y-20);
+			hitbox.changeOffset(x, y-40);
 		}
 		else if (curDirection == RIGHT){
-			hitbox.changeOffset(x+20, y);
+			hitbox.changeOffset(x+40, y);
 		}
 		else if (curDirection == DOWN){
-			hitbox.changeOffset(x, y+20);
+			hitbox.changeOffset(x, y+40);
 		}
 		else { //LEFT
-			hitbox.changeOffset(x-20, y);
+			hitbox.changeOffset(x-40, y);
 		}
 		return enemyAttackCollisionDetector();			
 	}
@@ -93,17 +166,20 @@ class Enemy extends Character implements GameInfo{
 	@Override
 	public Image getAttackImage(){
 		attackFrames++;
-		if (attackFrames < 60){ //attack windup
-			return getWalkImage();
+		if (attackFrames < 40){ //attack decision
+		
 		}
-		else if (attackFrames < 100){ //hitbox is out
+		else if (attackFrames < 80){ //attack windup
+			return attackAnimation[attackDirection][0];
+		}
+		else if (attackFrames < 110){ //hitbox is out
 			if (attackHelper()) //if attack hit
 				attackHit = true;
 			if (attackHit)
 				return attackAnimation[attackDirection][3];
-			return attackAnimation[attackDirection][0];
+			return attackAnimation[attackDirection][1];
 		}
-		else if (attackFrames == 100){ //attack has ended
+		else if (attackFrames == 110){ //attack has ended
 			movable = true;
 			hitbox.changeOffset(10000, 10000);
 			attackHit = false;
@@ -113,6 +189,12 @@ class Enemy extends Character implements GameInfo{
 		}
 		return getWalkImage();
 	}
+	
+		public boolean attackIsOut(){
+			if (attackFrames >= 75 && attackFrames <= 110)
+				return true;
+			return false;
+		}
 	
 	@Override
 	public Image getWalkImage(){

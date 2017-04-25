@@ -24,25 +24,35 @@ public class PauseMenu extends JFrame {
 	private JLabel textLabel;
 	private static Clip clip;
 	
-	public PauseMenu(String msg) {
+	public PauseMenu(String msg, boolean resume, boolean exit) {
+
 		textLabel = new JLabel(msg);
-		closeButton = new JButton("Close");
+		if (resume == true){		
+		closeButton = new JButton("Resume");
 		closeButton.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e)
 		    {
+					 Player.getInstance().unPause();
 		       dispose();
 		    }
 		});
-		exitButton = new JButton("Exit");
+		}
+		if (exit == true){
+		exitButton = new JButton("Exit Game");
 		exitButton.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e)
 		    {
 		       System.exit(0);
 		    }
 		});
+		}
 		barPane = new JPanel();
+		if (exit){
 		barPane.add(exitButton);
+		}
+		if (resume){
 		barPane.add(closeButton);
+		}
 		JPanel textPanel = new JPanel();
 		textPanel.add(textLabel);
 		contentPane = new JPanel(new BorderLayout());

@@ -3,12 +3,18 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class Board extends JPanel implements Runnable, GameInfo{
 	private int bWidth = INTERNAL_WIDTH;
@@ -129,6 +135,10 @@ public class Board extends JPanel implements Runnable, GameInfo{
 	}
 	
 	private void cycle(){
+		if (player.isPaused()){
+			return;
+		}
+		room.checkForVictory();
 		player.move();
 		if (player.checkCutscene())
 			return;

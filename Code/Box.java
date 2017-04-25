@@ -2,8 +2,10 @@ public class Box{
 	private Coordinate corners[];
 	private int offsetX = 0;
 	private int offsetY = 0;
+	private boolean active;
 	
 	public Box(int x, int y, int width, int height){
+		active = true;
 		corners = new Coordinate[4];
 		corners[0] = new Coordinate(x, y);
 		corners[1] = new Coordinate(x+width, y);
@@ -11,7 +13,21 @@ public class Box{
 		corners[3] = new Coordinate(x+width, y+height);
 	}
 	
+	public void makeInactive(){
+		active = false;
+	}
+	
+	public void makeActive(){
+		active = true;
+	}
+	
+	public boolean isActive(){
+		return active;
+	}
+	
 	public boolean isOverlapped(Box box2){
+		if (active == false || box2.isActive() == false)
+			return false;
 		int offsetDiffX = box2.getX() - offsetX;
 		int offsetDiffY = box2.getY() - offsetY;
 		for (int i=0; i<4; i++){

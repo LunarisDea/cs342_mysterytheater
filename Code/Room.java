@@ -15,6 +15,9 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Scanner;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 
 public class Room implements GameInfo{
 	private static Room instance = null;
@@ -50,9 +53,11 @@ public class Room implements GameInfo{
 		overlay = 0;
 		overlayIntensity = 125;
 		loadImages();
+		loadSound();
+		Player.getInstance().cutscene(2);
 	}
 	
-	public void loadImages(){
+	private void loadImages(){
 		readDataFile();
 		
 		ImageIcon bg = new ImageIcon("Images/bg/" + roomNum + ".png");	
@@ -60,6 +65,33 @@ public class Room implements GameInfo{
 		bgImage = bg.getImage();
 		fgImage = fg.getImage();
 		//System.out.println("Play music for room: " + roomNum);
+
+		if (Global.size != 1){
+			bgImage = bgImage.getScaledInstance(INTERNAL_WIDTH * Global.size, 
+												INTERNAL_HEIGHT * Global.size, Image.SCALE_DEFAULT);
+			fgImage = fgImage.getScaledInstance(INTERNAL_WIDTH * Global.size, 
+												INTERNAL_HEIGHT * Global.size, Image.SCALE_DEFAULT);													
+		}
+		loadSpecialImages();
+	}
+	
+	private void loadSpecialImages(){
+		if (roomNum == 110){ //mirror
+			if (Player.getInstance().curWeapon() != 1){
+				enemies[numEnemies] = new Enemy(20, 115, 135);
+				numEnemies++;
+			}
+		}
+	}
+	
+	
+	private void loadSound(){
+		/* lullaby music?
+		if (room == 100){
+			
+		}
+		*/
+		
 		if (roomNum == 110){
 			
 			try {
@@ -75,13 +107,7 @@ public class Room implements GameInfo{
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-		}
-		if (Global.size != 1){
-			bgImage = bgImage.getScaledInstance(INTERNAL_WIDTH * Global.size, 
-												INTERNAL_HEIGHT * Global.size, Image.SCALE_DEFAULT);
-			fgImage = fgImage.getScaledInstance(INTERNAL_WIDTH * Global.size, 
-												INTERNAL_HEIGHT * Global.size, Image.SCALE_DEFAULT);													
-		}	
+		}		
 	}
 	
 	private void readDataFile(){
@@ -176,6 +202,13 @@ public class Room implements GameInfo{
 	
 	public Enemy getEnemy(int i){
 		return enemies[i];
+	}
+	
+	public void setRoom(int newRoom, int playerX, int playerY){
+		roomNum = newRoom;
+		loadImages();
+		Player.getInstance().setLocation(playerX, playerY);
+		framesSinceRoomEnter = 0;
 	}
 	
 	private void upRoom(Player player){
@@ -304,9 +337,11 @@ public class Room implements GameInfo{
 	
 	public boolean attackCollisionDetector(Box attackBox){
 		for (int i=0; i < numEnemies; i++){
-			if (attackBox.isOverlapped(enemies[i].getHurtbox())){
-				enemies[i].takeDamage(1);
-				return true;
+			if (enemies[i].attackIsOut()){
+				if (attackBox.isOverlapped(enemies[i].getHurtbox())){
+					enemies[i].takeDamage(1);
+					return true;
+				}
 			}
 		}
 		return false;
@@ -316,7 +351,7 @@ public class Room implements GameInfo{
 		if (roomNum == 100){
 			if (actionNum == 0){ //light switch
 				overlay = 1;
-				
+				/*
 				try {
 					AudioInputStream audioInputStream = AudioSystem.getAudioInputStream (
 					     new File("Sleeping.wav"));
@@ -329,12 +364,33 @@ public class Room implements GameInfo{
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+				*/
 			}
-			if (actionNum == 1){ //enterbed
+			if (actionNum == 1){ //enter bed
 				//move player into bed
 				//transition
 				Player player = Player.getInstance();
 				player.cutscene(1);
+			}
+		}
+		if (roomNum == 110){
+			if (actionNum == 0){ //pick up mirror
+				Player player = Player.getInstance();
+				player.setWeapon(1);
+				enemies[numEnemies-1].takeDamage(100);
+				player.pause();
+			//System.out.println("Escape");
+			//JOptionPane.showMessageDialog(null, "Move left mapping: " + (char)moveLeftMapping);
+			String Message = "<html><center>The Mirror<BR>" + 
+			"--------------------<BR>" +
+					"These creatures may be scary, but <BR>you are not entirely defenseless!<BR>" +
+			"--------------------<BR>" +
+					"Use the mirror to reflect enemy attacks!<BR>" +
+					"Be careful to time when you use your mirror <BR>for when the enemy is about to attack!<BR>" +
+					"</center></html>";
+			//JOptionPane.showMessageDialog(null, Message);
+			JFrame ex = new PauseMenu(Message, true, false);
+			ex.setVisible(true);
 			}
 		}
 	}
@@ -365,6 +421,16 @@ public class Room implements GameInfo{
 		for (int i=0; i<numEnemies; i++){
 			enemies[i].aiAction();
 		}
+	}
+	
+	public boolean checkForVictory(){
+		if (roomNum == 110){
+			if (enemies[0].isDead()){
+				Player.getInstance().cutscene(100);
+				return true;
+			}
+		}		
+		return false;
 	}
 	
 	public void changeOverlay(int num){
