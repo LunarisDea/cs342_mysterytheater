@@ -24,8 +24,11 @@ class Enemy extends Character implements GameInfo{
 		if(enemyType==1){
 			initializeAdultFemaleSoul();
 		}
-		if(enemyType==2){
+		else if(enemyType==2){
 			initializeAdultMaleSoul();
+		}
+		else if (enemyType==3){
+			initializeBlob();
 		}
 		else if (enemyType == 20){
 			initializeMirror();
@@ -44,10 +47,18 @@ class Enemy extends Character implements GameInfo{
 	}
 
 	private void initializeAdultMaleSoul(){
-		Box hit = new Box(13, 38, 40, 22);		
-		Box hurt = new Box(13, 38, 40, 22);
+		Box hit = new Box(0, 0, 64, 64);		
+		Box hurt = new Box(21, 21, 43, 43);
 		
 		initChar("MF", hurt, hit);
+	}
+	
+	private void initializeBlob(){
+		Box hit = new Box(0, 0, 64, 64);
+		Box hurt = new Box(13, 13, 38, 38);
+		
+		initChar("Blob", hurt, hit);
+		curHP = 1;
 	}
 	
 	private void initializeMirror(){
@@ -62,8 +73,19 @@ class Enemy extends Character implements GameInfo{
 			adultFemaleAI();
 		else if (enemyType == 2)
 			adultMaleAI();
+		else if (enemyType == 3)
+			blobAI();
 		else if (enemyType == 20)
 			mirrorAI();
+	}
+	
+	private void blobAI(){
+		curDirection = DOWN;
+		attack();
+		Room room = Room.getInstance();
+		
+		room.envCollisionDetector(this);
+		room.playerCollisionDetector(this);			
 	}
 	
 	private void adultFemaleAI(){
@@ -146,8 +168,7 @@ class Enemy extends Character implements GameInfo{
 	}
 	
 	
-	@Override
-	protected boolean attackHelper(){ //returns true if hit else false
+	private boolean adultFemaleAttack(){
 		if (curDirection == UP){
 			hitbox.changeOffset(x, y-40);
 		}
@@ -161,6 +182,20 @@ class Enemy extends Character implements GameInfo{
 			hitbox.changeOffset(x-40, y);
 		}
 		return enemyAttackCollisionDetector();			
+	}
+	
+	private boolean blobAttack(){
+		hitbox.changeOffset(x, y);
+		return enemyAttackCollisionDetector();
+	}
+	
+	@Override
+	protected boolean attackHelper(){ //returns true if hit else false
+		if (enemyType == 1)
+			adultFemaleAttack();
+		if (enemyType == 3)
+			blobAttack();
+		return false;
 	}
 	
 	@Override

@@ -30,6 +30,8 @@ public class Room implements GameInfo{
 	
 	private int overlay;
 	private int overlayIntensity;
+	private int col=0;
+	private boolean up=true;
 	
 	private int numCollidables;
 	private int numActables;
@@ -58,6 +60,12 @@ public class Room implements GameInfo{
 	}
 	
 	private void loadImages(){
+		if (roomNum == 130){
+			changeOverlay(3);
+		}
+		else{
+			changeOverlay(0);
+		}
 		readDataFile();
 		
 		ImageIcon bg = new ImageIcon("Images/bg/" + roomNum + ".png");	
@@ -415,6 +423,18 @@ public class Room implements GameInfo{
 		else if (overlay == 2){ //flashlight mode
 			return;
 		}
+		else if (overlay == 3){ //boss fight
+			if (col > 100)
+				up = false;
+			else if (col <= 0)
+				up = true;
+			if (up)
+				col++;
+			else
+				col--;
+			g.setColor(new Color(col, 0, 0, 125));
+			g.fillRect(0, 0, Global.size*640, Global.size*360);
+		}
 	}
 	
 	public void moveEnemies(){
@@ -424,7 +444,7 @@ public class Room implements GameInfo{
 	}
 	
 	public boolean checkForVictory(){
-		if (roomNum == 110){
+		if (roomNum == 130){
 			if (enemies[0].isDead()){
 				Player.getInstance().cutscene(100);
 				return true;
